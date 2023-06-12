@@ -39,7 +39,7 @@ typedef struct _Player
 
 void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Player *ArrayPlayer );
 
-//這邊因為我目前還沒有找到更好的辦法，所以只好把這個爆開的每個點對應的數字指示物放在主函式
+//這邊因為我目前不知道還有沒有更好的辦法，覺得這樣已經是比較好寫的方式了，所以只好先把這個爆開的每個點對應的數字指示物放在主函式
 //所以主函式需要放入
 /*
     struct _Plate ArrayPlate[19];
