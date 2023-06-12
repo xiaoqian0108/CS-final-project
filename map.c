@@ -56,14 +56,7 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 		{
 			ArrayPlate[i].scene = resource_num[i - 1];
 		}
-	}	
-/*
-	for(int32_t i = 0; i < 19; i++)
-	{
-		printf("%d: %d ", i, ArrayPlate[i].scene);
 	}
-	printf("\n");
-*/
 
 	//init Vertex
 	int32_t vertex_type0[] = {1, 2, 3, 4, 7, 12, 16, 22, 27, 28, 33, 39, 43, 48, 51, 52, 53, 54};
@@ -99,13 +92,6 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	{
 		ArrayVertex[ vertex_port6[i] - 1 ].port = 6;
 	}
-/*
-	for(int32_t i = 0; i < 54; i++)
-	{
-		printf("%d ", ArrayVertex[i].port);
-	}
-	printf("\n");
-*/
 
 	ArrayVertex[0].res_type[2] = ArrayPlate[0].scene;
 	ArrayVertex[1].res_type[2] = ArrayPlate[1].scene;
@@ -161,14 +147,7 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	ArrayVertex[51].res_type[2] = ArrayPlate[16].scene;
 	ArrayVertex[52].res_type[2] = ArrayPlate[17].scene;
 	ArrayVertex[53].res_type[2] = ArrayPlate[18].scene;
-/*
-	printf("%d ", ArrayVertex[25].res_num[0]);
-	printf("%d ", ArrayVertex[25].res_num[1]);
-	printf("%d \n", ArrayVertex[25].res_num[2]);
-	printf("%d ", ArrayVertex[25].res_type[0]);
-	printf("%d ", ArrayVertex[25].res_type[1]);
-	printf("%d \n", ArrayVertex[25].res_type[2]);
-*/
+    
 	//init Line
 	int32_t line_type0[] = {1, 2, 3, 4, 5, 6, 7, 10, 11, 18, 19, 23, 24, 33, 34, 39, 40, 49, 50, 54, 55, 62, 63, 66, 67, 68, 69, 70, 71, 72};
 	int32_t line_type1[] = {8, 9, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 28, 29, 30, 31, 32, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 56, 57, 58, 59, 60, 61, 64, 65};
