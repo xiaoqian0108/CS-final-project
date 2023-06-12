@@ -5,9 +5,9 @@
 
 typedef struct _Plate
 {
-		int res_num;//資源數字指示
-		int scene;//六種場地
-		int bandit;//盜賊
+	int res_num;//資源數字指示
+	int scene;//六種場地
+	int bandit;//盜賊
 }Plate;
 
 typedef struct _Vertex
@@ -16,7 +16,7 @@ typedef struct _Vertex
 	int village;//村莊
 	int city;//城市
 	int port;//港口類型
-    int res_num[3];//鄰近的資源數字指示
+	int res_num[3];//鄰近的資源數字指示
 	int res_type[3];//鄰近的資源種類
 }Vertex;
 
@@ -31,9 +31,9 @@ typedef struct _Line
 typedef struct _Player
 {
 	int resource[5];//五種資源
-    int building[3];//三種建築
+	int building[3];//三種建築
 	int develop[5];//五種發展卡
-    int new_deve[5];//剛拿到的卡
+	int new_deve[5];//剛拿到的卡
 	int special[2];//特殊計分卡
 }Player;
 
