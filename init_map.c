@@ -1,4 +1,9 @@
 //我有稍微改一下編號，跟line上傳的不太一樣，我把點、邊、板塊都從0開始編，這樣大家可能寫他們的陣列時比較值觀(第幾個陣列的元素就是地圖上的第幾個)
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "map.h"
+
 void init_map( Plate *ArrayPlate )
 {
 	//Line 1
