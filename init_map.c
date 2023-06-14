@@ -397,7 +397,7 @@ void init_map( Plate *ArrayPlate )
 
 	//Line 21
 	printf("        ");
-	for(int32_t i = 47; i < 50; i++)
+	for(int32_t i = 47; i < 51; i++)
 	{
 		printf("\033[0;32m%02d\033[m", i);
 		printf("      ");
@@ -421,6 +421,324 @@ void init_map( Plate *ArrayPlate )
 		printf("      ");
 	}
 	printf("      \n");
+
+	return;
+}
+
+
+void map( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine )
+{
+	void color_vertex( Vertex *ArrayVertex, int distinct )
+	{
+		if( ArrayVertex[distinct].port == 0 )
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[33m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 1 )  //麥2:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[48;2;128;0;128m\033[33m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[48;2;128;0;128m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 2 )  //木頭2:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[33;48;2;165;42;42m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[48;2;165;42;42m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 3 )  //綿羊2:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[42m\033[33m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[42m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 4 )  //石頭2:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[48;2;128;128;128m\033[33m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[48;2;128;128;128m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 5 )  //磚2:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[48;2;255;0;0m\033[33m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[48;2;255;0;0m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+		if( ArrayVertex[distinct].port == 6 )  //3:1
+		{
+			if( ArrayVertex[distinct].city == 0 )
+			{
+				printf("\033[33;44m\033[1m%02d\033[0m", ArrayVertex[distinct].village );  //village yellow, city white
+			}
+			else if( ArrayVertex[distinct].village == 0 && ArrayVertex[distinct].city != 0 )
+			{
+				printf("\033[44m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
+			}
+		}
+	}
+
+	void color_line( Vertex *ArrayVertex, int distinct_line )
+	{
+		printf( "\033[36m%02d\033[0m", ArrayLine[distinct_line].road );
+	}
+
+	//Line 1
+	printf("            ");
+	for( int32_t i = 0; i < 3; i++ )
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("\n");
+
+	//Line 2
+	printf("          ");
+	for( int32_t i = 0; i < 6; i++ )
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("        \n");
+
+	//Line 3
+	printf("        ");
+	for(int32_t i = 3; i < 7; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("  \n");
+	
+	//Line 4
+	printf("        ");
+	for(int32_t i = 6; i < 9; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+		printf("%02d", ArrayPlate[i - 6].res_num);
+		printf("  ");
+	}
+	color_line( ArrayVertex, 9 );
+	printf("        \n");
+
+	//Line 5
+	printf("        ");
+	for(int32_t i = 7; i < 11; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("  \n");
+
+	//Line 6
+	printf("      ");
+	for(int32_t i = 10; i < 18; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("    \n");
+	
+	//Line 7
+	printf("    ");
+	for(int32_t i = 11; i < 15; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 15 );
+	printf("    \n");
+	
+	//Line 8
+	printf("    ");
+	for(int32_t i = 18; i < 22; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+		printf("%02d", ArrayPlate[i - 15].res_num);
+		printf("  ");
+	}
+	color_line( ArrayVertex, 22 );
+	printf("    \n");
+	
+	//Line 9
+	printf("    ");
+	for(int32_t i = 16; i < 20; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 20 );
+	printf("    \n");
+
+	//Line 10
+	printf("  ");
+	for(int32_t i = 23; i < 33; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("\n");
+
+	//Line 11
+	for(int32_t i = 21; i < 26; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 26 );
+	printf("\n");
+
+	//Line 12
+	for(int32_t i = 33; i < 38; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+		printf("%02d", ArrayPlate[i - 26].res_num);
+		printf("  ");
+	}
+	color_line( ArrayVertex, 38 );
+	printf("\n");
+
+	//Line 13
+	for(int32_t i = 27; i < 32; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 32 );
+	printf("\n");
+
+	//Line 14
+	printf("  ");
+	for(int32_t i = 39; i < 49; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("\n");
+
+	//Line 15
+	printf("    ");
+	for(int32_t i = 33; i < 37; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 37 );
+	printf("    \n");
+
+	//Line 16
+	printf("    ");
+	for(int32_t i = 49; i < 53; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+		printf("%02d", ArrayPlate[i - 37].res_num);
+		printf("  ");
+	}
+	color_line( ArrayVertex, 53 );
+	printf("    \n");
+
+	//Line 17
+	printf("    ");
+	for(int32_t i = 38; i < 42; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	color_vertex( ArrayVertex, 42 );
+	printf("    \n");
+
+	//Line 18
+	printf("      ");
+	for(int32_t i = 54; i < 62; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("    \n");
+
+	//Line 19
+	printf("        ");
+	for(int32_t i = 43; i < 47; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("  \n");
+
+	//Line 20
+	printf("        ");
+	for(int32_t i = 62; i < 65; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+		printf("%02d", ArrayPlate[i - 46].res_num);
+		printf("  ");
+	}
+	color_line( ArrayVertex, 65 );
+	printf("        \n");
+
+	//Line 21
+	printf("        ");
+	for(int32_t i = 47; i < 51; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("  \n");
+
+	//Line 22
+	printf("          ");
+	for(int32_t i = 66; i < 72; i++)
+	{
+		color_line( ArrayVertex, i );
+		printf("  ");
+	}
+	printf("        \n");
+
+	//Line 23
+	printf("            ");
+	for(int32_t i = 51; i < 54; i++)
+	{
+		color_vertex( ArrayVertex, i );
+		printf("      ");
+	}
+	printf("      \n");
+
 
 	return;
 }
