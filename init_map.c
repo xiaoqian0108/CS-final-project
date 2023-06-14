@@ -7,7 +7,11 @@
 void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Player *ArrayPlayer )
 {
 	//init Plate
-	ArrayPlate[15].bandit = 0;
+	for(int32_t i = 0; i < 19; i++)
+	{
+		ArrayPlate[i].bandit = 0;
+	}
+	ArrayPlate[15].bandit = 1;
 
 	ArrayPlate[0].res_num = 4;
 	ArrayPlate[1].res_num = 11;
@@ -46,7 +50,7 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	{
 		if( i == 15 )
 		{
-			continue;
+			ArrayPlate[i].scene = 0;
 		}
 		else if( i < 15 )
 		{
@@ -56,7 +60,7 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 		{
 			ArrayPlate[i].scene = resource_num[i - 1];
 		}
-	}
+	}	
 
 	//init Vertex
 	int32_t vertex_type0[] = {1, 2, 3, 4, 7, 12, 16, 22, 27, 28, 33, 39, 43, 48, 51, 52, 53, 54};
@@ -74,6 +78,17 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	for(int32_t i = 0; i < sizeof( vertex_type2 ) / sizeof( vertex_type2[0] ); i++)
 	{
 		ArrayVertex[ vertex_type2[i] - 1 ].type = 2;
+	}
+
+	for(int32_t i = 0; i < 54; i++)
+	{
+		ArrayVertex[i].village = 0;
+		ArrayVertex[i].city = 0;
+		ArrayVertex[i].port = 0;
+		for(int32_t j = 0; j < 3; j++)
+		{
+			ArrayVertex[i].res_type[j] = 0;
+		}
 	}
 
 	ArrayVertex[15].port = 1;
@@ -98,11 +113,11 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	ArrayVertex[2].res_type[2] = ArrayPlate[2].scene;
 	ArrayVertex[3].res_type[2] = ArrayPlate[0].scene;
 	ArrayVertex[4].res_type[1] = ArrayPlate[0].scene;	ArrayVertex[4].res_type[2] = ArrayPlate[1].scene;
-	ArrayVertex[5].res_type[1] = ArrayPlate[1].scene;	ArrayVertex[4].res_type[2] = ArrayPlate[2].scene;
+	ArrayVertex[5].res_type[1] = ArrayPlate[1].scene;	ArrayVertex[5].res_type[2] = ArrayPlate[2].scene;
 	ArrayVertex[6].res_type[2] = ArrayPlate[2].scene;
 	ArrayVertex[7].res_type[1] = ArrayPlate[0].scene;	ArrayVertex[7].res_type[2] = ArrayPlate[3].scene;
 	ArrayVertex[8].res_type[0] = ArrayPlate[0].scene;	ArrayVertex[8].res_type[1] = ArrayPlate[1].scene;	ArrayVertex[8].res_type[2] = ArrayPlate[4].scene;
-	ArrayVertex[9].res_type[0] = ArrayPlate[1].scene;	ArrayVertex[8].res_type[1] = ArrayPlate[2].scene;	ArrayVertex[8].res_type[2] = ArrayPlate[5].scene;
+	ArrayVertex[9].res_type[0] = ArrayPlate[1].scene;	ArrayVertex[9].res_type[1] = ArrayPlate[2].scene;	ArrayVertex[9].res_type[2] = ArrayPlate[5].scene;
 	ArrayVertex[10].res_type[1] = ArrayPlate[2].scene;	ArrayVertex[10].res_type[2] = ArrayPlate[6].scene;
 	ArrayVertex[11].res_type[2] = ArrayPlate[3].scene;
 	ArrayVertex[12].res_type[0] = ArrayPlate[0].scene;	ArrayVertex[12].res_type[1] = ArrayPlate[3].scene;	ArrayVertex[12].res_type[2] = ArrayPlate[4].scene;
@@ -147,8 +162,14 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	ArrayVertex[51].res_type[2] = ArrayPlate[16].scene;
 	ArrayVertex[52].res_type[2] = ArrayPlate[17].scene;
 	ArrayVertex[53].res_type[2] = ArrayPlate[18].scene;
-    
+
 	//init Line
+	for(int32_t i = 0; i < 72; i++)
+	{
+		ArrayLine[i].type = 0;
+		ArrayLine[i].road = 0;
+	}
+
 	int32_t line_type0[] = {1, 2, 3, 4, 5, 6, 7, 10, 11, 18, 19, 23, 24, 33, 34, 39, 40, 49, 50, 54, 55, 62, 63, 66, 67, 68, 69, 70, 71, 72};
 	int32_t line_type1[] = {8, 9, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25, 26, 27, 28, 29, 30, 31, 32, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 56, 57, 58, 59, 60, 61, 64, 65};
 	for(int32_t i = 0; i < sizeof( line_type0 ) / sizeof( line_type0[0] ); i++)
@@ -158,6 +179,26 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 	for(int32_t i = 0; i < sizeof( line_type1 ) / sizeof( line_type1[0] ); i++)
 	{
 		ArrayLine[ line_type1[i] - 1 ].type = 1;
+	}
+	
+
+	//init Player
+	for(int32_t i = 0; i < 4; i++)
+	{
+		for(int32_t j = 0; j < 5; j++)
+		{
+			ArrayPlayer[i].resource[j] = 0;
+			ArrayPlayer[i].develop[j] = 0;
+			ArrayPlayer[i].new_deve[j] = 0;
+		}
+		for(int32_t j = 0; j < 3; j++)
+		{
+			ArrayPlayer[i].building[j] = 0;
+		}
+		for(int32_t j = 0; j < 2; j++)
+		{
+			ArrayPlayer[i].special[j] = 0;
+		}	
 	}
 
 	return;
