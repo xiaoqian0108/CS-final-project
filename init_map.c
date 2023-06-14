@@ -507,11 +507,14 @@ void map( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine )
 				printf("\033[44m\033[1m%02d\033[0m", ArrayVertex[distinct].city );
 			}
 		}
+
+		return;
 	}
 
 	void color_line( Vertex *ArrayVertex, int distinct_line )
 	{
 		printf( "\033[36m%02d\033[0m", ArrayLine[distinct_line].road );
+		return;
 	}
 
 	//Line 1
@@ -738,7 +741,6 @@ void map( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine )
 		printf("      ");
 	}
 	printf("      \n");
-
 
 	return;
 }
