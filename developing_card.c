@@ -4,167 +4,14 @@
 #include <time.h>
 #include <string.h>
 
-typedef struct _Plate
-{
-	int32_t res_num;  // 資源數字指示
-	int32_t scene;  // 六種場地
-	int32_t bandit;  // 盜賊
-}sPlate;
-
-typedef struct _Vertex
-{
-	int32_t type;  // 節點種類(3種)
-	int32_t village;  // 村莊
-	int32_t city;  // 城市
-	int32_t port;  // 港口類型
-    int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
-	int32_t res_type[3];  //:{0,2,1}  // 鄰近的資源種類
-}sVertex;
-
-typedef struct _Line
-{
-	int32_t type;  // 道路種類
-	int32_t road;  // 道路的擁有權
-}sLine;
-
 typedef struct _Player
 {
 	int32_t resource[5];  // 五種資源
-    int32_t building[3];  // 三種建築
+    	int32_t building[3];  // 三種建築
 	int32_t develop[3];  // 三種發展卡 0:騎士卡 1:進程卡 2:分數卡
-    int32_t new_deve[3];  // 剛拿到的卡
+    	int32_t new_deve[3];  // 剛拿到的卡
 	int32_t special[2];  // 特殊計分卡
 }sPlayer;
-
-void init_plate ( sPlate *pPlate )
-{
-    pPlate[0].res_num = 4;
-    pPlate[0].scene = 1;
-    pPlate[0].bandit = 0;
-    pPlate[1].res_num = 11;
-    pPlate[1].scene = 2;
-    pPlate[1].bandit = 0;
-    pPlate[2].res_num = 12;
-    pPlate[2].scene = 3;
-    pPlate[2].bandit = 0;
-    pPlate[3].res_num = 8;
-    pPlate[3].scene = 4;
-    pPlate[3].bandit = 0;
-    pPlate[4].res_num = 3;
-    pPlate[4].scene = 5;
-    pPlate[4].bandit = 0;
-    pPlate[5].res_num = 6;
-    pPlate[5].scene = 1;
-    pPlate[5].bandit = 0;
-    pPlate[6].res_num = 9;
-    pPlate[6].scene = 2;
-    pPlate[6].bandit = 0;
-    pPlate[7].res_num = 5;
-    pPlate[7].scene = 3;
-    pPlate[7].bandit = 0;
-    pPlate[8].res_num = 10;
-    pPlate[8].scene = 4;
-    pPlate[8].bandit = 0;
-    pPlate[9].res_num = 11;
-    pPlate[9].scene = 5;
-    pPlate[9].bandit = 0;
-    pPlate[10].res_num = 5;
-    pPlate[10].scene = 1;
-    pPlate[10].bandit = 0;
-    pPlate[11].res_num = 10;
-    pPlate[11].scene = 2;
-    pPlate[11].bandit = 0;
-    pPlate[12].res_num = 2;
-    pPlate[12].scene = 3;
-    pPlate[12].bandit = 0;
-    pPlate[13].res_num = 9;
-    pPlate[13].scene = 4;
-    pPlate[13].bandit = 0;
-    pPlate[14].res_num = 4;
-    pPlate[14].scene = 5;
-    pPlate[14].bandit = 0;
-    pPlate[15].res_num = 0;
-    pPlate[15].scene = 6;
-    pPlate[15].bandit = 1;
-    pPlate[16].res_num = 6;
-    pPlate[16].scene = 1;
-    pPlate[16].bandit = 0;
-    pPlate[17].res_num = 3;
-    pPlate[17].scene = 2;
-    pPlate[17].bandit = 0;
-    pPlate[18].res_num = 8;
-    pPlate[18].scene = 3;
-    pPlate[18].bandit = 0;
-
-    /*
-    // print
-    for( int32_t i = 0; i < 19; i++ )
-    {
-        printf( "Plate %d:  ", i+1 );
-        printf( "Resource Number: %d  ", pPlate[i].res_num );
-        printf( "Scene: %d  ", pPlate[i].scene );
-        printf( "Bandit: %d  ", pPlate[i].bandit );
-        printf( "\n" );
-    }
-    */
-}
-
-void init_vertex( sVertex *pVertex )
-{
-    // 2
-    pVertex[1].type = 0;
-    pVertex[1].village = 0;
-    pVertex[1].city = 0;
-    pVertex[1].port = 2;
-    pVertex[1].res_num[0] = 0;
-    pVertex[1].res_num[1] = 0;
-    pVertex[1].res_num[2] = 11;
-    pVertex[1].res_type[0] = 0;
-    pVertex[1].res_type[1] = 0;
-    pVertex[1].res_type[2] = 2;
-
-    // 8
-    pVertex[7].type = 1;
-    pVertex[7].village = 0;
-    pVertex[7].city = 0;
-    pVertex[7].port = 5;
-    pVertex[7].res_num[0] = 0;
-    pVertex[7].res_num[1] = 4;
-    pVertex[7].res_num[2] = 8;
-    pVertex[7].res_type[0] = 0;
-    pVertex[7].res_type[1] = 1;
-    pVertex[7].res_type[2] = 4;
-
-    // 25
-    pVertex[24].type = 2;
-    pVertex[24].village = 2;
-    pVertex[24].city = 0;
-    pVertex[24].port = 0;
-    pVertex[24].res_num[0] = 6;
-    pVertex[24].res_num[1] = 11;
-    pVertex[24].res_num[2] = 5;
-    pVertex[24].res_type[0] = 1;
-    pVertex[24].res_type[1] = 5;
-    pVertex[24].res_type[2] = 1;
-}
-
-int32_t drop_dice()
-{
-    int32_t dice1_number = 0;
-    int32_t dice2_number = 0;
-    int32_t dice_total = 0;
-
-    srand(time(NULL));
-    dice1_number = rand() % 6 + 1;
-    dice2_number = rand() % 6 + 1;
-    dice_total = dice1_number + dice2_number;
-
-    printf( "Dice 1: %d\n", dice1_number );
-    printf( "Dice 2: %d\n", dice2_number );
-    printf( "Dice 1 + 2: %d\n", dice_total );
-    
-    return dice_total;
-}
 
 void init_player( sPlayer *pPlayer )
 {
@@ -248,21 +95,26 @@ void buy_developing_card( sPlayer *pPlayer, int32_t tdc[] )
     printf( "( 0: No, 1: Yes ): " );
     scanf( "%d", &choice );
 
+    for ( size_t i = 0; i < 3; i++ )
+    {
+        if( pPlayer[0].new_deve[i] == 1 )
+        {
+            pPlayer[0].develop[i]++;
+            pPlayer[0].new_deve[i]--;
+        }
+    }
+
     if( choice == 0 )
     {
         printf( "Bye.\n" );
     }
     else if( choice == 1 )
     {
+
         if ( pPlayer[0].resource[0] == 0 || pPlayer[0].resource[2] == 0 || pPlayer[0].resource[3] == 0 )
         {
             printf( "Sorry. You don't have enough resources to buy a developing card.\n" );
             return;
-        }
-        
-        for ( size_t i = 0; i < 3; i++ )
-        {
-            pPlayer[0].new_deve[i] = 0;
         }
         
         int32_t category = 0;
@@ -278,23 +130,22 @@ void buy_developing_card( sPlayer *pPlayer, int32_t tdc[] )
 
         if( category == 0 && tdc[0] != 0 )
         {
-            pPlayer[0].develop[0]++;
+            pPlayer[0].new_deve[0]++;
             tdc[0]--;
         }
         else if( category == 1 && tdc[1] != 0 )
         {
-            pPlayer[0].develop[1]++;
+            pPlayer[0].new_deve[1]++;
             tdc[1]--;
         }
         else if( category == 2 && tdc[2] != 0 )
         {
-            pPlayer[0].develop[2]++;
+            pPlayer[0].new_deve[2]++;
             tdc[2]--;
         }
         pPlayer[0].resource[0]--;
         pPlayer[0].resource[2]--;
         pPlayer[0].resource[3]--;
-        pPlayer[0].new_deve[category]++;
     }
     else
     {
@@ -353,7 +204,7 @@ void progressing_card( sPlayer *pPlayer, int32_t bank_res[] )
     else if( choice == 2 )
     {
         printf( "Which one do you want?\n" );
-        printf( "( 0: wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
+        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
         scanf( "%d" , &resource_NO );
 
         // suppose the gamer is the player 1
@@ -405,19 +256,6 @@ void score_card ( sPlayer *pPlayer )
     printf( "The number of score cards that you want to use: ");
     scanf( "%d" , &quantity );
 
-    if( choice != 0 && choice <= 3 )
-    {
-        if( pPlayer[0].develop[2] == 1 && pPlayer[0].new_deve[2] == 1 )
-        {
-            printf( "It is not permitted to use the score card you just acquired in the same turn.\n" );
-            return;
-        }
-        if( pPlayer[0].develop[2] == 0 )
-        {
-            printf( "You don't have enough socre cards.\n" );
-        }
-    }
-
     if( choice == 0 )
     {
         printf( "Bye!\n" );
@@ -429,7 +267,7 @@ void score_card ( sPlayer *pPlayer )
     }
     else if( choice == 1 && pPlayer[0].develop[2] < quantity )
     {
-        printf( "Sorry. It seems that you don't have enough score cards.\n" );
+        printf( "Sorry. You don't have enough score cards.\n" );
     }
     else
     {
