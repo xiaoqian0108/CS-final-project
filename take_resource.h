@@ -14,7 +14,7 @@ typedef struct _Vertex
 	int32_t village;  // 村莊
 	int32_t city;  // 城市
 	int32_t port;  // 港口類型
-    int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
+    	int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
 	int32_t res_type[3];  //:{0,2,1}  // 鄰近的資源種類
 }sVertex;
 
