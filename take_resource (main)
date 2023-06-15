@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdint.h>
+#include "take_resource.h"
+
+int main()
+{
+    
+    sPlate ArrayPlate[19];
+    init_plate( ArrayPlate );
+
+    sVertex ArrayVertex[54];
+    init_vertex( ArrayVertex );
+
+    sPlayer ArrayPlayer[4];
+    for ( int32_t i = 0; i < 4; i++ )
+    {
+        //printf( "Player %d:\n" , i + 1 );
+        init_player( &ArrayPlayer[i] );
+    }
+
+    int32_t dice = drop_dice();
+    // int32_t dice = 8;
+
+    int32_t a = take_resource( dice , ArrayPlate , ArrayVertex , ArrayPlayer );
+    if( a == -1 )
+    {
+        bandit_function();
+    }
+
+    return 0;
+}
