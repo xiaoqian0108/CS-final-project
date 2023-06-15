@@ -17,7 +17,7 @@ typedef struct _Vertex
 	int32_t village;  // 村莊
 	int32_t city;  // 城市
 	int32_t port;  // 港口類型
-  int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
+    int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
 	int32_t res_type[3];  //:{0,2,1}  // 鄰近的資源種類
 }sVertex;
 
@@ -31,38 +31,10 @@ typedef struct _Player
 {
 	int32_t resource[5];  // 五種資源
     int32_t building[3];  // 三種建築
-	int32_t develop[3];  // 三種發展卡
-   	int32_t new_deve[3];  // 剛拿到的卡
+	int32_t develop[5];  // 三種發展卡 0: 騎士卡 1: 進程卡 (資源壟斷) 2: 進程卡 (創新發明) 3: 進程卡 (道路建設) 4: 分數卡
+    int32_t new_deve[5];  // 剛拿到的卡
 	int32_t special[2];  // 特殊計分卡
 }sPlayer;
-
-void isVillage( sVertex *pVertex, sPlayer *pPlayer, int32_t i, int32_t resource_NO, int32_t number[] )
-{   
-    int32_t player = 0;
-    if( pVertex[i].village != 0 )
-    {
-        player = pVertex[i].village;
-
-        if( number[resource_NO-1] != 0 )
-        {
-            pPlayer[player-1].resource[resource_NO-1]++;
-            number[resource_NO-1]--;
-        }
-    }
-
-    printf( "Player %d's resources:\n" , player );
-    for( int32_t j = 0; j < 5; j++ )
-    {
-        printf( "%4d" , pPlayer[player-1].resource[j] );
-    }
-    printf( "\n" );
-    printf( "Resource remaining:\n" );
-    for( int32_t j = 0; j < 5; j++ )
-    {
-        printf( "%4d" , number[j] );
-    }
-    printf( "\n" );
-}
 
 void init_plate ( sPlate *pPlate )
 {
@@ -141,7 +113,7 @@ void init_vertex( sVertex *pVertex )
 {
     // 2
     pVertex[1].type = 0;
-    pVertex[1].village = 1;
+    pVertex[1].village = 0;
     pVertex[1].city = 0;
     pVertex[1].port = 2;
     pVertex[1].res_num[0] = 0;
@@ -153,7 +125,7 @@ void init_vertex( sVertex *pVertex )
 
     // 8
     pVertex[7].type = 1;
-    pVertex[7].village = 4;
+    pVertex[7].village = 0;
     pVertex[7].city = 0;
     pVertex[7].port = 5;
     pVertex[7].res_num[0] = 0;
@@ -196,285 +168,318 @@ int32_t drop_dice()
 
 void init_player( sPlayer *pPlayer )
 {
-    // set
-    for( size_t i = 0; i < 5; i++ )
-    {
-        pPlayer -> resource[i] = 0;
-    }
-    for( size_t i = 0; i < 3; i++ )
-    {
-        pPlayer -> building[i] = 0;
-    }
-    for( size_t i = 0; i < 3; i++ )
-    {
-        pPlayer -> develop[i] = 0;
-    }
-    for( size_t i = 0; i < 3; i++ )
-    {
-        pPlayer -> new_deve[i] = 0;
-    }
-    for( size_t i = 0; i < 2; i++ )
-    {
-        pPlayer -> special[i] = 0;
-    }
-    /*
-    // print
-    for( size_t i = 0; i < 5; i++ )
-    {
-        printf( "%4d" , pPlayer->resource[i] );
-    }
-    printf( "\n" );
-    for( size_t i = 0; i < 3; i++ )
-    {
-        printf( "%4d" , pPlayer->building[i] );
-    }
-    printf( "\n" );
-    for( size_t i = 0; i < 3; i++ )
-    {
-        printf( "%4d" , pPlayer->develop[i] );
-    }
-    printf( "\n" );
-    for( size_t i = 0; i < 3; i++ )
-    {
-        printf( "%4d" , pPlayer->new_deve[i] );
-    }
-    printf( "\n" );
-    for( size_t i = 0; i < 2; i++ )
-    {
-        printf( "%4d" , pPlayer->special[i] );
-    }
-    printf( "\n" );
-    */
+    // Player 1
+    pPlayer[0].resource[0] = 1;
+    pPlayer[0].resource[1] = 2;
+    pPlayer[0].resource[2] = 3;
+    pPlayer[0].resource[3] = 2;
+    pPlayer[0].resource[4] = 1;
+    pPlayer[0].building[0] = 0;
+    pPlayer[0].building[1] = 0;
+    pPlayer[0].building[2] = 0;
+    pPlayer[0].develop[0] = 2;
+    pPlayer[0].develop[1] = 1;
+    pPlayer[0].develop[2] = 3;
+    pPlayer[0].develop[3] = 1;
+    pPlayer[0].develop[4] = 2;
+    pPlayer[0].new_deve[0] = 0;
+    pPlayer[0].new_deve[1] = 0;
+    pPlayer[0].new_deve[2] = 0;
+    pPlayer[0].new_deve[3] = 0;
+    pPlayer[0].new_deve[4] = 0;
+    pPlayer[0].special[0] = 0;
+    pPlayer[0].special[1] = 0;
+
+    // Player 2
+    pPlayer[1].resource[0] = 3;
+    pPlayer[1].resource[1] = 2;
+    pPlayer[1].resource[2] = 1;
+    pPlayer[1].resource[3] = 2;
+    pPlayer[1].resource[4] = 3;
+    pPlayer[1].building[0] = 0;
+    pPlayer[1].building[1] = 0;
+    pPlayer[1].building[2] = 0;
+    pPlayer[1].develop[0] = 3;
+    pPlayer[1].develop[1] = 1;
+    pPlayer[1].develop[2] = 1;
+    pPlayer[1].develop[3] = 0;
+    pPlayer[1].develop[4] = 1;
+    pPlayer[1].new_deve[0] = 0;
+    pPlayer[1].new_deve[1] = 0;
+    pPlayer[1].new_deve[2] = 0;
+    pPlayer[0].new_deve[3] = 0;
+    pPlayer[0].new_deve[4] = 0;
+    pPlayer[1].special[0] = 0;
+    pPlayer[1].special[1] = 0;
+
+    // Player 3
+    pPlayer[2].resource[0] = 2;
+    pPlayer[2].resource[1] = 1;
+    pPlayer[2].resource[2] = 1;
+    pPlayer[2].resource[3] = 1;
+    pPlayer[2].resource[4] = 2;
+    pPlayer[2].building[0] = 0;
+    pPlayer[2].building[1] = 0;
+    pPlayer[2].building[2] = 0;
+    pPlayer[2].develop[0] = 2;
+    pPlayer[2].develop[1] = 0;
+    pPlayer[2].develop[2] = 0;
+    pPlayer[2].develop[3] = 1;
+    pPlayer[2].develop[4] = 1;
+    pPlayer[2].new_deve[0] = 0;
+    pPlayer[2].new_deve[1] = 0;
+    pPlayer[2].new_deve[2] = 0;
+    pPlayer[0].new_deve[3] = 0;
+    pPlayer[0].new_deve[4] = 0;
+    pPlayer[2].special[0] = 0;
+    pPlayer[2].special[1] = 0;
+
+    // Player 4
+    pPlayer[3].resource[0] = 0;
+    pPlayer[3].resource[1] = 3;
+    pPlayer[3].resource[2] = 2;
+    pPlayer[3].resource[3] = 1;
+    pPlayer[3].resource[4] = 0;
+    pPlayer[3].building[0] = 0;
+    pPlayer[3].building[1] = 0;
+    pPlayer[3].building[2] = 0;
+    pPlayer[2].develop[0] = 1;
+    pPlayer[2].develop[1] = 0;
+    pPlayer[2].develop[2] = 1;
+    pPlayer[2].develop[3] = 0;
+    pPlayer[2].develop[4] = 2;
+    pPlayer[3].new_deve[0] = 0;
+    pPlayer[3].new_deve[1] = 0;
+    pPlayer[3].new_deve[2] = 0;
+    pPlayer[0].new_deve[3] = 0;
+    pPlayer[0].new_deve[4] = 0;
+    pPlayer[3].special[0] = 0;
+    pPlayer[3].special[1] = 0;
 }
 
-void bandit_function()
+void buy_developing_card( sPlayer *pPlayer, int32_t tdc[], int32_t bank_res[] )
 {
-    printf( "Bandit moved.\n" );
+    for ( size_t i = 0; i < 5; i++ )
+    {
+        if( pPlayer[0].new_deve[i] == 1 )
+        {
+            pPlayer[0].develop[i]++;
+            pPlayer[0].new_deve[i]--;
+        }
+    }
+
+    int32_t choice = 0;
+    printf( "Do you want to buy a developing card from the bank?\n");
+    printf( "( 0: No, 1: Yes ): " );
+    scanf( "%d", &choice );
+
+    if( choice == 0 )
+    {
+        printf( "Bye.\n" );
+    }
+    else if( choice == 1 )
+    {
+
+        if ( pPlayer[0].resource[0] == 0 || pPlayer[0].resource[2] == 0 || pPlayer[0].resource[3] == 0 )
+        {
+            printf( "Sorry. You don't have enough resources to buy a developing card.\n" );
+            return;
+        }
+        
+        int32_t category = 0;
+        printf( "Which category do you want?\n" );
+        printf( "[ 0: Knight card, 1: Progressing card ( monopoly )\n");
+        printf( "  2: Progress card ( acquire resource from the bank )\n" );
+        printf( "  3: 2 free roads, 4: Score card ]: " );
+        scanf( "%d" , &category );
+        
+        if( category < 0 || category > 4 )
+        {
+            printf( "Ivaild input. You lost the chance.\n" );
+            return;
+        }
+
+        if( tdc[category] == 0 )
+        {
+            printf( "There is no enough such cards.\n" );
+            return;
+        }
+
+        for ( size_t i = 0; i < 5; i++ )
+        {
+            if( i == category && tdc[i] != 0 )
+            {
+                pPlayer[0].new_deve[i]++;
+                tdc[i]--;
+                printf( "You successfully got the card.\n" );
+                break;
+            }
+        }
+        pPlayer[0].resource[0]--;
+        pPlayer[0].resource[2]--;
+        pPlayer[0].resource[3]--;
+        bank_res[0]++;
+        bank_res[2]++;
+        bank_res[3]++;
+    }
+    else
+    {
+        printf( "Ivaild Input. You lost the chance in this turn.\n" );
+    }
 }
 
-int32_t take_resource( int32_t dice , sPlate *pPlate, sVertex *pVertex, sPlayer *pPlayer )
+void progressing_card( sPlayer *pPlayer, int32_t bank_res[] )
 {
-    if( dice == 7 )
+    int32_t choice = 0;
+    printf( "Which progressing card do you want to use in this turn?\n" );
+    printf( "( 0: No,thanks. 1: Monopoly 2: Acquire resources from bank 3: 2 free roads ): ");
+    scanf( "%d" , &choice );
+    
+    if( choice > 0 && choice <= 3 )
     {
-        return -1;
+        if( pPlayer[0].develop[choice] == 0 )
+        {
+            printf( "You don't have enough progressing cards.\n" );
+            return;
+        }
     }
-    
-    printf( "Start to take resource.\n" );
-    
-    // the total of the cards
+
+    // resource
     // [0]: 麥田 => 生產小麥
     // [1]: 森林 => 生產木頭
     // [2]: 草原 => 生產羊毛
     // [3]: 山脈 => 生產石頭
     // [4]: 丘陵 => 生產磚頭
-    int32_t trc[5];
-    // the number of total resource cards
-    for ( size_t i = 0; i < 5; i++ )
+
+    int32_t resource_NO = 0;
+    if( choice == 0 )
     {
-        trc[i] = 19;
+        printf( "Bye!\n" );
+    }
+    else if( choice == 1 )
+    {
+        printf( "Which one do you want?\n" );
+        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
+        scanf( "%d" , &resource_NO );
+
+        // suppose the gamer is the player 1
+        int32_t sum = 0;
+        for( size_t i = 1; i < 4; i++ )
+        {
+            sum += pPlayer[i].resource[resource_NO];
+            pPlayer[i].resource[resource_NO] = 0;
+        }
+        pPlayer[0].resource[resource_NO] += sum;
+        pPlayer[0].develop[1]--;
+    }
+    else if( choice == 2 )
+    {
+        printf( "Which one do you want?\n" );
+        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
+        scanf( "%d" , &resource_NO );
+
+        // suppose the gamer is the player 1
+        if( bank_res[resource_NO] >= 2 )
+        {
+            pPlayer[0].resource[resource_NO] += 2;
+            bank_res[resource_NO] -= 2;
+            pPlayer[0].develop[2]--;
+        }
+        else
+        {
+            printf( "Sorry. There is no enough roads remaining.\n" );
+        }
+    }
+    else if( choice == 3 )
+    {
+        int32_t road1 = 0;
+        int32_t road2 = 0;
+
+        // suppose the gamer is player 1
+        if( pPlayer[0].building[0] <= 13 )
+        {
+            printf( "Choose the road that you want to build.\n" );
+            printf( "Road 1: ");
+            scanf( "%d" , &road1 );
+            printf( "Road 2: ");
+            scanf( "%d" , &road2 );
+            printf( "The roads were successfully built.\n" );
+            pPlayer[0].building[0] += 2;
+            pPlayer[0].develop[3]--;
+        }
+        else
+        {
+            printf( "You can not biuld another 2 roads anymore.\n" );
+        }
+    }
+    else
+    {
+        printf( "Ivaild Input. You lost the chance in this turn.\n" );
+    }
+}
+
+void score_card( sPlayer *pPlayer )
+{
+    int32_t choice = 0;
+    printf( "Do you want to show one of your score cards?\n" );
+    printf( "( 0: No, 1: Yes ): ");
+    scanf( "%d" , &choice );
+
+    if( choice == 0 )
+    {
+        printf( "Bye!\n" );
+        return;
+    }
+    else if( choice > 1 )
+    {
+        printf( "Invaild Input.\n" );
+        return;
     }
 
-    /* // test
-    if( dice == 11 )
-    {
-        isVillage( pVertex, pPlayer, 1, pPlate[1].scene, trc );
-    }
-    else if( dice == 8 )
-    {
-        isVillage( pVertex, pPlayer, 7, pPlate[3].scene,  trc );
-    }
-    else if( dice == 6 )
-    {
-        isVillage( pVertex, pPlayer, 24, pPlate[5].scene, trc );
-    }
-    */
+    int32_t quantity = 0;
+    printf( "The number of score cards that you want to use: ");
+    scanf( "%d" , &quantity );
 
-    if( dice == 2 && pPlate[12].bandit == 0 )
+    if( choice == 1 && pPlayer[0].develop[2] >= quantity )
     {
-        isVillage( pVertex, pPlayer, 28, pPlate[12].scene, trc );
-        isVillage( pVertex, pPlayer, 33, pPlate[12].scene, trc );
-        isVillage( pVertex, pPlayer, 34, pPlate[12].scene, trc );
-        isVillage( pVertex, pPlayer, 38, pPlate[12].scene, trc );
-        isVillage( pVertex, pPlayer, 39, pPlate[12].scene, trc );
-        isVillage( pVertex, pPlayer, 43, pPlate[12].scene, trc );
+        pPlayer[0].develop[4] -= quantity;
+        // points += quantity;
     }
-    else if ( dice == 3 )
+    else if( choice == 1 && pPlayer[0].develop[2] < quantity )
     {
-        if( pPlate[4].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 8, pPlate[4].scene, trc );
-            isVillage( pVertex, pPlayer, 12, pPlate[4].scene, trc );
-            isVillage( pVertex, pPlayer, 13, pPlate[4].scene, trc );
-            isVillage( pVertex, pPlayer, 17, pPlate[4].scene, trc );
-            isVillage( pVertex, pPlayer, 18, pPlate[4].scene, trc );
-            isVillage( pVertex, pPlayer, 23, pPlate[4].scene, trc );
-        }
-        if( pPlate[17].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 40, pPlate[17].scene, trc );
-            isVillage( pVertex, pPlayer, 44, pPlate[17].scene, trc );
-            isVillage( pVertex, pPlayer, 45, pPlate[17].scene, trc );
-            isVillage( pVertex, pPlayer, 48, pPlate[17].scene, trc );
-            isVillage( pVertex, pPlayer, 49, pPlate[17].scene, trc );
-            isVillage( pVertex, pPlayer, 52, pPlate[17].scene, trc );
-        }
+        printf( "Sorry. You don't have enough score cards.\n" );
     }
-    else if ( dice == 4 )
-    {
-        if( pPlate[0].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 0, pPlate[0].scene, trc );
-            isVillage( pVertex, pPlayer, 3, pPlate[0].scene, trc );
-            isVillage( pVertex, pPlayer, 4, pPlate[0].scene, trc );
-            isVillage( pVertex, pPlayer, 7, pPlate[0].scene, trc );
-            isVillage( pVertex, pPlayer, 8, pPlate[0].scene, trc );
-            isVillage( pVertex, pPlayer, 12, pPlate[0].scene, trc );
-        }
-        if( pPlate[14].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 30, pPlate[14].scene, trc );
-            isVillage( pVertex, pPlayer, 35, pPlate[14].scene, trc );
-            isVillage( pVertex, pPlayer, 36, pPlate[14].scene, trc );
-            isVillage( pVertex, pPlayer, 40, pPlate[14].scene, trc );
-            isVillage( pVertex, pPlayer, 41, pPlate[14].scene, trc );
-            isVillage( pVertex, pPlayer, 45, pPlate[14].scene, trc );
-        }
-    }
-    else if ( dice == 5 )
-    {
-        if( pPlate[7].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 16, pPlate[7].scene, trc );
-            isVillage( pVertex, pPlayer, 21, pPlate[7].scene, trc );
-            isVillage( pVertex, pPlayer, 22, pPlate[7].scene, trc );
-            isVillage( pVertex, pPlayer, 27, pPlate[7].scene, trc );
-            isVillage( pVertex, pPlayer, 28, pPlate[7].scene, trc );
-            isVillage( pVertex, pPlayer, 33, pPlate[7].scene, trc );
-        }
-        if( pPlate[10].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 19, pPlate[10].scene, trc );
-            isVillage( pVertex, pPlayer, 24, pPlate[10].scene, trc );
-            isVillage( pVertex, pPlayer, 25, pPlate[10].scene, trc );
-            isVillage( pVertex, pPlayer, 30, pPlate[10].scene, trc );
-            isVillage( pVertex, pPlayer, 31, pPlate[10].scene, trc );
-            isVillage( pVertex, pPlayer, 36, pPlate[10].scene, trc );
-        }
-    }
-    else if ( dice == 6 )
-    {
-        if( pPlate[5].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 9, pPlate[5].scene, trc );
-            isVillage( pVertex, pPlayer, 13, pPlate[5].scene, trc );
-            isVillage( pVertex, pPlayer, 14, pPlate[5].scene, trc );
-            isVillage( pVertex, pPlayer, 18, pPlate[5].scene, trc );
-            isVillage( pVertex, pPlayer, 19, pPlate[5].scene, trc );
-            isVillage( pVertex, pPlayer, 24, pPlate[5].scene, trc );
-        }
-        if( pPlate[16].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 39, pPlate[16].scene, trc );
-            isVillage( pVertex, pPlayer, 43, pPlate[16].scene, trc );
-            isVillage( pVertex, pPlayer, 44, pPlate[16].scene, trc );
-            isVillage( pVertex, pPlayer, 47, pPlate[16].scene, trc );
-            isVillage( pVertex, pPlayer, 48, pPlate[16].scene, trc );
-            isVillage( pVertex, pPlayer, 51, pPlate[16].scene, trc );
-        }
-    }
-    else if ( dice == 8 )
-    {
-        if( pPlate[3].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 7, pPlate[3].scene, trc );
-            isVillage( pVertex, pPlayer, 11, pPlate[3].scene, trc );
-            isVillage( pVertex, pPlayer, 12, pPlate[3].scene, trc );
-            isVillage( pVertex, pPlayer, 16, pPlate[3].scene, trc );
-            isVillage( pVertex, pPlayer, 17, pPlate[3].scene, trc );
-            isVillage( pVertex, pPlayer, 22, pPlate[3].scene, trc );
-        }
-        if( pPlate[18].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 41, pPlate[18].scene, trc );
-            isVillage( pVertex, pPlayer, 45, pPlate[18].scene, trc );
-            isVillage( pVertex, pPlayer, 46, pPlate[18].scene, trc );
-            isVillage( pVertex, pPlayer, 49, pPlate[18].scene, trc );
-            isVillage( pVertex, pPlayer, 50, pPlate[18].scene, trc );
-            isVillage( pVertex, pPlayer, 53, pPlate[18].scene, trc );
-        }
-    }
-    else if ( dice == 9 )
-    {
-        if( pPlate[6].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 10, pPlate[6].scene, trc );
-            isVillage( pVertex, pPlayer, 14, pPlate[6].scene, trc );
-            isVillage( pVertex, pPlayer, 15, pPlate[6].scene, trc );
-            isVillage( pVertex, pPlayer, 19, pPlate[6].scene, trc );
-            isVillage( pVertex, pPlayer, 20, pPlate[6].scene, trc );
-            isVillage( pVertex, pPlayer, 25, pPlate[6].scene, trc );
-        }
-        if( pPlate[13].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 29, pPlate[13].scene, trc );
-            isVillage( pVertex, pPlayer, 34, pPlate[13].scene, trc );
-            isVillage( pVertex, pPlayer, 35, pPlate[13].scene, trc );
-            isVillage( pVertex, pPlayer, 39, pPlate[13].scene, trc );
-            isVillage( pVertex, pPlayer, 40, pPlate[13].scene, trc );
-            isVillage( pVertex, pPlayer, 44, pPlate[13].scene, trc );
-        }
-    }
-    else if ( dice == 10 )
-    {
-        if( pPlate[8].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 17, pPlate[8].scene, trc );
-            isVillage( pVertex, pPlayer, 22, pPlate[8].scene, trc );
-            isVillage( pVertex, pPlayer, 23, pPlate[8].scene, trc );
-            isVillage( pVertex, pPlayer, 28, pPlate[8].scene, trc );
-            isVillage( pVertex, pPlayer, 29, pPlate[8].scene, trc );
-            isVillage( pVertex, pPlayer, 34, pPlate[8].scene, trc );
-        }
-        if( pPlate[11].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 20, pPlate[11].scene, trc );
-            isVillage( pVertex, pPlayer, 25, pPlate[11].scene, trc );
-            isVillage( pVertex, pPlayer, 26, pPlate[11].scene, trc );
-            isVillage( pVertex, pPlayer, 31, pPlate[11].scene, trc );
-            isVillage( pVertex, pPlayer, 32, pPlate[11].scene, trc );
-            isVillage( pVertex, pPlayer, 37, pPlate[11].scene, trc );
-        }
-    }
-    else if ( dice == 11 )
-    {
-        if( pPlate[1].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 1, pPlate[1].scene, trc );
-            isVillage( pVertex, pPlayer, 4, pPlate[1].scene, trc );
-            isVillage( pVertex, pPlayer, 5, pPlate[1].scene, trc );
-            isVillage( pVertex, pPlayer, 8, pPlate[1].scene, trc );
-            isVillage( pVertex, pPlayer, 9, pPlate[1].scene, trc );
-            isVillage( pVertex, pPlayer, 13, pPlate[1].scene, trc );
-        }
-        if( pPlate[9].bandit == 0 )
-        {
-            isVillage( pVertex, pPlayer, 18, pPlate[9].scene, trc );
-            isVillage( pVertex, pPlayer, 23, pPlate[9].scene, trc );
-            isVillage( pVertex, pPlayer, 24, pPlate[9].scene, trc );
-            isVillage( pVertex, pPlayer, 29, pPlate[9].scene, trc );
-            isVillage( pVertex, pPlayer, 30, pPlate[9].scene, trc );
-            isVillage( pVertex, pPlayer, 35, pPlate[9].scene, trc );
-        }
-    }
-    else if ( dice == 12 && pPlate[2].bandit == 0 )
-    {
-        isVillage( pVertex, pPlayer, 2, pPlate[2].scene, trc );
-        isVillage( pVertex, pPlayer, 5, pPlate[2].scene, trc );
-        isVillage( pVertex, pPlayer, 6, pPlate[2].scene, trc );
-        isVillage( pVertex, pPlayer, 9, pPlate[2].scene, trc );
-        isVillage( pVertex, pPlayer, 10, pPlate[2].scene, trc );
-        isVillage( pVertex, pPlayer, 14, pPlate[2].scene, trc );
-    }
+}
 
-    return 0;
+void print_player_possession( sPlayer *pPlayer )
+{
+    for( int32_t i = 0; i < 1; i++ )
+    {
+        printf( "Player %d:\n", i + 1 );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].resource[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 3; j++ )
+        {
+            printf( "%4d" , pPlayer[i].building[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].develop[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].new_deve[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 2; j++ )
+        {
+            printf( "%4d" , pPlayer[i].special[j] );
+        }
+        printf( "\n" );
+    }
 }
