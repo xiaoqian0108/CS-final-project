@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdint.h>
+#include "developing_card.h"
+
+int main()
+{
+    sPlate ArrayPlate[19];
+    init_plate( ArrayPlate );
+
+    sVertex ArrayVertex[54];
+    init_vertex( ArrayVertex );
+
+    sPlayer ArrayPlayer[4];
+    init_player( ArrayPlayer );
+
+    //int32_t dice = drop_dice();
+    //int32_t dice = 6;
+
+    int32_t bank_res[5];
+    for ( size_t i = 0; i < 5; i++ )
+    {
+        bank_res[i] = 19;
+    }
+
+    // total_developing_card
+    int32_t tdc[3];
+    tdc[0] = 14;
+    tdc[1] = 6;
+    tdc[2] = 5;
+    
+    buy_developing_card( ArrayPlayer, tdc );
+    progressing_card( ArrayPlayer, bank_res );
+    score_card( ArrayPlayer );
+
+    // print
+    for( int32_t i = 0; i < 4; i++ )
+    {
+        printf( "Player %d:\n", i + 1 );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , ArrayPlayer[i].resource[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 3; j++ )
+        {
+            printf( "%4d" , ArrayPlayer[i].building[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 3; j++ )
+        {
+            printf( "%4d" , ArrayPlayer[i].develop[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 3; j++ )
+        {
+            printf( "%4d" , ArrayPlayer[i].new_deve[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 2; j++ )
+        {
+            printf( "%4d" , ArrayPlayer[i].special[j] );
+        }
+        printf( "\n" );
+    }
+
+    return 0;
+}
