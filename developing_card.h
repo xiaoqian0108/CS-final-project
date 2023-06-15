@@ -43,10 +43,6 @@ void init_player( sPlayer *pPlayer );
 
 int32_t drop_dice();
 
-int32_t take_resource( int32_t dice , sPlate *pPlate, sVertex *pVertex, sPlayer *pPlayer );
-
-void bandit_function();
-
 void buy_developing_card( sPlayer *pPlayer, int32_t tdc[] );
 
 void progressing_card( sPlayer *pPlayer, int32_t bank_res[] );
