@@ -5,36 +5,36 @@
 
 typedef struct _Plate
 {
-	int res_num;//資源數字指示
-	int scene;//六種場地
-	int bandit;//盜賊
+	int32_t res_num;//資源數字指示
+	int32_t scene;//六種場地
+	int32_t bandit;//盜賊
 }Plate;
 
 typedef struct _Vertex
 {
-	int type;//節點種類(3種)
-	int village;//村莊
-	int city;//城市
-	int port;//港口類型
-	int res_num[3];//鄰近的資源數字指示
-	int res_type[3];//鄰近的資源種類
+	int32_t type;//節點種類(3種)
+	int32_t village;//村莊
+	int32_t city;//城市
+	int32_t port;//港口類型
+	int32_t res_num[3];//鄰近的資源數字指示
+	int32_t res_type[3];//鄰近的資源種類
 }Vertex;
 
 
 typedef struct _Line
 {
-	int type;//道路種類(2)
-	int road;//道路的擁有權
+	int32_t type;//道路種類(2)
+	int32_t road;//道路的擁有權
 }Line;
 
 
 typedef struct _Player
 {
-	int resource[5];//五種資源
-	int building[3];//三種建築
-	int develop[5];//五種發展卡
-	int new_deve[5];//剛拿到的卡
-	int special[2];//特殊計分卡
+	int32_t resource[5];//五種資源
+	int32_t building[3];//三種建築
+	int32_t develop[5];//五種發展卡
+	int32_t new_deve[5];//剛拿到的卡
+	int32_t special[2];//特殊計分卡
 }Player;
 
 void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Player *ArrayPlayer );
