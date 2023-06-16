@@ -6,8 +6,99 @@
 
 int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_NO, int32_t number[] )
 {   
-	int32_t i, j, cards;
-	for( i = 0; i < 4; i++)
+	int32_t i, j;
+	
+    int32_t p[4] = {0}, amount = 0, oneplayer, resource;
+    for(i = 0; i < 6; i++)
+    {
+    	if( pVertex[ary[i]].village > 1)
+	    {
+	        p[amount] = pVertex[i].village;
+	        p[amount]--;
+	        amount++;
+	    }
+    }
+
+    if(amount == 0)
+    {
+    	printf("There is no player!!!\n");
+    	return -1;
+    }
+
+    else if (amount == 1)
+    {
+    	while(1)
+    	{
+    		srand(time(NULL));
+    		int resource_NO = rand() % 5 + 1;
+    		if(pPlayer[p[0]].resource[resource_NO - 1] > 0)
+    		{
+    			pPlayer[p[0]].resource[resource_NO - 1]--;
+    			number[resource_NO - 1]--;
+    			break;
+    		}
+    	}
+    	printf("Player %d's resources:\n" , p[0]);
+	    for(i = 0; i < 5; i++)
+	    {
+	        printf("%4d" , pPlayer[p[0]].resource[i]);
+	    }
+	    printf("\n");
+	    printf("Resource remaining:\n");
+	    for(i = 0; i < 5; i++)
+	    {
+	        printf("%4d" , number[i]);
+	    }
+	    printf("\n");
+    	
+    }
+
+    else if(amount > 1)
+    {
+    	printf("Which player? (");
+    	for(i = 0; i < amount; i++)
+    	{
+    		printf("%d", p[i]);
+    		if(i != amount - 1)
+    		{
+    			printf(", ");
+    		}
+    	}
+    	printf(")\n");
+    	scanf("%d", &oneplayer);
+
+    	while(1)
+    	{
+    		srand(time(NULL));
+    		int resource_NO = rand() % 5 + 1;
+    		if(pPlayer[oneplayer - 1].resource[resource_NO-1] > 0)
+    		{
+    			pPlayer[oneplayer - 1].resource[resource_NO-1]--;
+    			number[resource_NO-1]--;
+    			break;
+    		}
+    	}
+    	printf("Player %d's resources:\n" , oneplayer - 1);
+	    for(i = 0; i < 5; i++)
+	    {
+	        printf("%4d" , pPlayer[oneplayer - 1].resource[i]);
+	    }
+	    printf("\n");
+	    printf("Resource remaining:\n");
+	    for(i = 0; i < 5; i++)
+	    {
+	        printf("%4d" , number[i]);
+	    }
+	    printf("\n");
+    }
+    return 0;
+}
+
+void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
+{
+	int32_t point, a, recent, i, j, cards;
+	printf("The Robber!!!\n");
+	for(i = 0; i < 4; i++)
 	{
 		cards = 0;
 		for(j = 0; j < 5; j++)
@@ -22,7 +113,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 			while(1)
 			{
 				printf("Player %d's resources:\n" , 1);
-			    for( i = 0; i < 5; i++ )
+			    for(i = 0; i < 5; i++)
 			    {
 			    	if(i == 0)
 			    	{
@@ -49,9 +140,9 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 				printf("Please enter the type of card and quantity which you throw (Ex: 1, 2)\n");
 				printf("1: grain, 2: lumbar, 3: wool, 4: ore, 5: brick\n");
 				scanf("%d, %d", &type, &quantity);
-				if(pPlayer[0].resource[type-1] - quantity >= 0 && count + quantity <= half)
+				if(pPlayer[0].resource[type - 1] - quantity >= 0 && count + quantity <= half)
 				{
-					pPlayer[0].resource[type-1] -= quantity;
+					pPlayer[0].resource[type - 1] -= quantity;
 					count += quantity;
 				} else {
 					printf("Please select again.\n");
@@ -73,9 +164,9 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 			{
 				srand(time(NULL));
     			int type = rand() % 5 + 1;
-				if(pPlayer[0].resource[type-1] - 1 >= 0 && count + 1 <= half)
+				if(pPlayer[0].resource[type - 1] - 1 >= 0 && count + 1 <= half)
 				{
-					pPlayer[0].resource[type-1] -= 1;
+					pPlayer[0].resource[type - 1] -= 1;
 					count += 1;
 				} else {
 					continue;
@@ -88,100 +179,11 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 			}
 		}
 	}
-    int32_t p[4] = {0}, amount = 0, oneplayer, resource;
-    for( i = 0; i < 6; i++ )
-    {
-    	if( pVertex[ary[i]].village > 1)
-	    {
-	        p[amount] = pVertex[i].village;
-	        p[amount]--;
-	        amount++;
-	    }
-    }
-
-    if(amount == 0)
-    {
-    	printf("There is no player!!!\n");
-    	return -1;
-    }
-
-    else if (amount == 1)
-    {
-    	while(1)
-    	{
-    		srand(time(NULL));
-    		int resource_NO = rand() % 5 + 1;
-    		if(pPlayer[p[0]].resource[resource_NO-1] > 0)
-    		{
-    			pPlayer[p[0]].resource[resource_NO-1]--;
-    			number[resource_NO-1]--;
-    			break;
-    		}
-    	}
-    	printf("Player %d's resources:\n" , p[0]);
-	    for( i = 0; i < 5; i++ )
-	    {
-	        printf("%4d" , pPlayer[p[0]].resource[i]);
-	    }
-	    printf("\n");
-	    printf("Resource remaining:\n");
-	    for( i = 0; i < 5; i++ )
-	    {
-	        printf("%4d" , number[i]);
-	    }
-	    printf("\n");
-    	
-    }
-
-    else if(amount > 1)
-    {
-    	printf("Which player? (");
-    	for(int32_t i = 0; i < amount; i++ )
-    	{
-    		printf("%d", p[i]);
-    		if(i != amount - 1)
-    		{
-    			printf(", ");
-    		}
-    	}
-    	printf(")\n");
-    	scanf("%d", &oneplayer);
-
-    	while(1)
-    	{
-    		srand(time(NULL));
-    		int resource_NO = rand() % 5 + 1;
-    		if(pPlayer[oneplayer - 1].resource[resource_NO-1] > 0)
-    		{
-    			pPlayer[oneplayer - 1].resource[resource_NO-1]--;
-    			number[resource_NO-1]--;
-    			break;
-    		}
-    	}
-    	printf("Player %d's resources:\n" , oneplayer - 1);
-	    for( i = 0; i < 5; i++ )
-	    {
-	        printf("%4d" , pPlayer[oneplayer - 1].resource[i]);
-	    }
-	    printf("\n");
-	    printf("Resource remaining:\n");
-	    for( i = 0; i < 5; i++ )
-	    {
-	        printf("%4d" , number[i]);
-	    }
-	    printf("\n");
-    }
-    return 0;
-}
-
-void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
-{
-	int32_t point, a, recent;
 	while(1) {
 		printf("Where would you place the bandit? (1 - 19)\n");
 		scanf("%d", &point);
 
-		for(int32_t i = 0; i < 18; i++)
+		for(i = 0; i < 18; i++)
 		{
 			if(pPlate[i].bandit != 0)
 			{
@@ -192,18 +194,18 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
 		}
 
 		int32_t trc[5];
-	    for ( size_t i = 0; i < 5; i++ )
+	    for(i = 0; i < 5; i++)
 	    {
 	        trc[i] = 19;
 	    }
 
-		if( point == 1 && point != recent)
+		if(point == 1 && point != recent)
 		{
 			int ary[] = {0, 3, 4, 7, 8, 12};
 	        a = isthief( pVertex, pPlayer, ary, pPlate[0].scene, trc);
 	        pPlate[0].bandit = 1;
 		}
-		else if( point == 2 && point != recent)
+		else if(point == 2 && point != recent)
 		{
 	        int ary[] = {1, 4, 5, 8, 9, 13};
 	        a = isthief( pVertex, pPlayer, ary, pPlate[1].scene, trc);
