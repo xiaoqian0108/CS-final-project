@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdint.h>
+#include "transaction.h"
+
+int main()
+{
+    sPlate ArrayPlate[19];
+    init_plate( ArrayPlate );
+
+    sVertex ArrayVertex[54];
+    init_vertex( ArrayVertex );
+
+    sPlayer ArrayPlayer[4];
+    init_player( ArrayPlayer );
+
+    print_player_possession( ArrayPlayer );
+
+    //int32_t dice = drop_dice();
+    //int32_t dice = 6;
+
+    int32_t bank_res[5];
+    for ( size_t i = 0; i < 5; i++ )
+    {
+        bank_res[i] = 19;
+    }
+
+    // total_developing_card
+    int32_t tdc[5];
+    tdc[0] = 14;
+    tdc[1] = 2;
+    tdc[2] = 2;
+    tdc[3] = 2;
+    tdc[4] = 5;
+
+    bank_transaction( ArrayPlayer, bank_res );
+    port_transaction( ArrayPlayer, ArrayVertex, bank_res );
+
+    // print
+    print_player_possession( ArrayPlayer );
+
+    return 0;
+}
