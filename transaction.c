@@ -31,7 +31,7 @@ typedef struct _Player
 {
 	int32_t resource[5];  // 五種資源
     int32_t building[3];  // 三種建築
-	int32_t develop[5];  // 三種發展卡 0: 騎士卡 1: 進程卡 (資源壟斷) 2: 進程卡 (創新發明) 3: 進程卡 (道路建設) 4: 分數卡
+	int32_t develop[5];  // 五種發展卡 0: 騎士卡 1: 進程卡 (資源壟斷) 2: 進程卡 (創新發明) 3: 進程卡 (道路建設) 4: 分數卡
     int32_t new_deve[5];  // 剛拿到的卡
 	int32_t special[2];  // 特殊計分卡
 }sPlayer;
@@ -169,17 +169,17 @@ int32_t drop_dice()
 void init_player( sPlayer *pPlayer )
 {
     // Player 1
-    pPlayer[0].resource[0] = 1;
-    pPlayer[0].resource[1] = 2;
-    pPlayer[0].resource[2] = 3;
-    pPlayer[0].resource[3] = 2;
-    pPlayer[0].resource[4] = 1;
+    pPlayer[0].resource[0] = 0;
+    pPlayer[0].resource[1] = 1;
+    pPlayer[0].resource[2] = 2;
+    pPlayer[0].resource[3] = 3;
+    pPlayer[0].resource[4] = 4;
     pPlayer[0].building[0] = 0;
     pPlayer[0].building[1] = 0;
     pPlayer[0].building[2] = 0;
     pPlayer[0].develop[0] = 2;
     pPlayer[0].develop[1] = 1;
-    pPlayer[0].develop[2] = 3;
+    pPlayer[0].develop[2] = 1;
     pPlayer[0].develop[3] = 1;
     pPlayer[0].develop[4] = 2;
     pPlayer[0].new_deve[0] = 0;
@@ -257,197 +257,220 @@ void init_player( sPlayer *pPlayer )
     pPlayer[3].special[1] = 0;
 }
 
-void buy_developing_card( sPlayer *pPlayer, int32_t tdc[], int32_t bank_res[] )
+void bank_transaction( sPlayer *pPlayer, int32_t bank_res[] )
 {
-    for ( size_t i = 0; i < 5; i++ )
-    {
-        if( pPlayer[0].new_deve[i] == 1 )
-        {
-            pPlayer[0].develop[i]++;
-            pPlayer[0].new_deve[i]--;
-        }
-    }
-
     int32_t choice = 0;
-    printf( "Do you want to buy a developing card from the bank?\n");
-    printf( "( 0: No, 1: Yes ): " );
+    printf( "Do you want to trade with the bank?\n" );
+    printf( "( 0: No, 1: Yes ): ");
     scanf( "%d", &choice );
 
     if( choice == 0 )
     {
-        printf( "Bye.\n" );
+        printf( "Bye!\n" );
     }
     else if( choice == 1 )
     {
+        int32_t resource_out = 0;
+        printf( "Which resource do you want to use for the exchange?\n" );
+        //printf( "( You have to take four same resource to exchange for only one.)\n" );
+        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
+        scanf( "%d" , &resource_out );
 
-        if ( pPlayer[0].resource[0] == 0 || pPlayer[0].resource[2] == 0 || pPlayer[0].resource[3] == 0 )
+        if( resource_out < 0 || resource_out > 4 )
         {
-            printf( "Sorry. You don't have enough resources to buy a developing card.\n" );
+            printf( "Invaild input. You lost the chance.\n" );
             return;
         }
         
-        int32_t category = 0;
-        printf( "Which category do you want?\n" );
-        printf( "[ 0: Knight card, 1: Progressing card ( monopoly )\n");
-        printf( "  2: Progress card ( acquire resource from the bank )\n" );
-        printf( "  3: 2 free roads, 4: Score card ]: " );
-        scanf( "%d" , &category );
-        
-        if( category < 0 || category > 4 )
+        if( pPlayer[0].resource[resource_out] < 4 )
         {
-            printf( "Ivaild input. You lost the chance.\n" );
+            printf( "Sorry. You don't have enough resources.\n" );
             return;
         }
 
-        if( tdc[category] == 0 )
+        int32_t resource_in = 0;
+        printf( "Which resource do you want to get?\n" );
+        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
+        scanf( "%d" , &resource_in );
+
+        if( resource_in < 0 || resource_in > 4 )
         {
-            printf( "There is no enough such cards.\n" );
+            printf( "Invaild input. You lost the chance.\n" );
             return;
         }
 
-        for ( size_t i = 0; i < 5; i++ )
+        if( resource_in == resource_out )
         {
-            if( i == category && tdc[i] != 0 )
-            {
-                pPlayer[0].new_deve[i]++;
-                tdc[i]--;
-                printf( "You successfully got the card.\n" );
-                break;
-            }
+            printf( "The two should not be the same.\n" );
+            return;
         }
-        pPlayer[0].resource[0]--;
-        pPlayer[0].resource[2]--;
-        pPlayer[0].resource[3]--;
-        bank_res[0]++;
-        bank_res[2]++;
-        bank_res[3]++;
+
+        if( bank_res[resource_in] == 0 )
+        {
+            printf( "Sorry. There is no enough resource.\n" );
+            return;
+        }
+
+        pPlayer[0].resource[resource_out] -= 4;
+        pPlayer[0].resource[resource_in]++;
+        bank_res[resource_out] += 4;
+        bank_res[resource_in]--;
     }
     else
     {
-        printf( "Ivaild Input. You lost the chance in this turn.\n" );
+        printf( "Invaild input. You lost the chance.\n" );
     }
 }
 
-void progressing_card( sPlayer *pPlayer, int32_t bank_res[] )
+void port_transaction( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[] )
 {
     int32_t choice = 0;
-    printf( "Which progressing card do you want to use in this turn?\n" );
-    printf( "( 0: No,thanks. 1: Monopoly 2: Acquire resources from bank 3: 2 free roads ): ");
-    scanf( "%d" , &choice );
-    
-    if( choice > 0 && choice <= 3 )
+    printf( "Do you want to trade with the bank at the port?" );
+    printf( "( 0: No, 1: Yes ): ");
+    scanf( "%d", &choice );
+
+    if( choice == 0 )
     {
-        if( pPlayer[0].develop[choice] == 0 )
-        {
-            printf( "You don't have enough progressing cards.\n" );
-            return;
-        }
+        printf( "Bye!\n" );
+        return;
+    }
+    
+    if( choice > 1 )
+    {
+        printf( "Invaild input. You lost the chance.\n" );
+        return;
     }
 
-    // resource
-    // [0]: 麥田 => 生產小麥
-    // [1]: 森林 => 生產木頭
-    // [2]: 草原 => 生產羊毛
-    // [3]: 山脈 => 生產石頭
-    // [4]: 丘陵 => 生產磚頭
+    int32_t port_NO = 0;
+    printf( "Enter the vertex that possesses a port: \n" );
+    scanf( "%d", &port_NO );
+
+    if ( pVertex[port_NO].port == 0 )
+    {
+        printf( "Sorry. The vertex is not a port.\n" );
+        return;
+    }
 
     int32_t resource_NO = 0;
-    if( choice == 0 )
-    {
-        printf( "Bye!\n" );
-    }
-    else if( choice == 1 )
-    {
-        printf( "Which one do you want?\n" );
-        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
-        scanf( "%d" , &resource_NO );
+    printf( "Which other resource do you want to get?\n" );
+    scanf( "%d", &resource_NO );
 
-        // suppose the gamer is the player 1
-        int32_t sum = 0;
-        for( size_t i = 1; i < 4; i++ )
+    if( pVertex[port_NO].port == 1 && resource_NO != 0 ) 
+    {
+        printf( "Take two wheat cards to exchange for something else.\n" );
+        if( bank_res[resource_NO] != 0 )
         {
-            sum += pPlayer[i].resource[resource_NO];
-            pPlayer[i].resource[resource_NO] = 0;
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[0] -= 2;
+            bank_res[0] += 2;
         }
-        pPlayer[0].resource[resource_NO] += sum;
-        pPlayer[0].develop[1]--;
-    }
-    else if( choice == 2 )
-    {
-        printf( "Which one do you want?\n" );
-        printf( "( 0: Wheat, 1: Woods, 2: Wool, 3: Rocks, 4: Bricks ): ");
-        scanf( "%d" , &resource_NO );
-
-        // suppose the gamer is the player 1
-        if( bank_res[resource_NO] >= 2 )
+        else if( pPlayer[0].resource[0] < 2 )
         {
-            pPlayer[0].resource[resource_NO] += 2;
-            bank_res[resource_NO] -= 2;
-            pPlayer[0].develop[2]--;
+            printf( "Sorry. You don't have enough cards.\n" );
         }
         else
         {
-            printf( "Sorry. There is no enough roads remaining.\n" );
+            printf( "Sorry. There is no enough resource.\n" );
         }
     }
-    else if( choice == 3 )
+    else if( pVertex[port_NO].port == 2 && resource_NO != 1 ) 
     {
-        int32_t road1 = 0;
-        int32_t road2 = 0;
-
-        // suppose the gamer is player 1
-        if( pPlayer[0].building[0] <= 13 )
+        printf( "Take two wood cards to exchange for something else.\n" );
+        if( bank_res[resource_NO] != 0 )
         {
-            printf( "Choose the road that you want to build.\n" );
-            printf( "Road 1: ");
-            scanf( "%d" , &road1 );
-            printf( "Road 2: ");
-            scanf( "%d" , &road2 );
-            printf( "The roads were successfully built.\n" );
-            pPlayer[0].building[0] += 2;
-            pPlayer[0].develop[3]--;
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[1] -= 2;
+            bank_res[1] += 2;
+        }
+        else if( pPlayer[0].resource[1] < 2 )
+        {
+            printf( "Sorry. You don't have enough cards.\n" );
         }
         else
         {
-            printf( "You can not biuld another 2 roads anymore.\n" );
+            printf( "Sorry. There is no enough resource.\n" );
         }
     }
-    else
+    else if( pVertex[port_NO].port == 3 && resource_NO != 2 ) 
     {
-        printf( "Ivaild Input. You lost the chance in this turn.\n" );
+        printf( "Take two wool cards to exchange for something else.\n" );
+        if( bank_res[resource_NO] != 0 )
+        {
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[2] -= 2;
+            bank_res[2] += 2;
+        }
+        else if( pPlayer[0].resource[2] < 2 )
+        {
+            printf( "Sorry. You don't have enough cards.\n" );
+        }
+        else
+        {
+            printf( "Sorry. There is no enough resource.\n" );
+        }
     }
-}
-
-void score_card( sPlayer *pPlayer )
-{
-    int32_t choice = 0;
-    printf( "Do you want to show one of your score cards?\n" );
-    printf( "( 0: No, 1: Yes ): ");
-    scanf( "%d" , &choice );
-
-    if( choice == 0 )
+    else if( pVertex[port_NO].port == 4 && resource_NO != 3 ) 
     {
-        printf( "Bye!\n" );
-        return;
+        printf( "Take two stone cards to exchange for something else.\n" );
+        if( bank_res[resource_NO] != 0 )
+        {
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[3] -= 2;
+            bank_res[3] += 2;
+        }
+        else if( pPlayer[0].resource[3] < 2 )
+        {
+            printf( "Sorry. You don't have enough cards.\n" );
+        }
+        else
+        {
+            printf( "Sorry. There is no enough resource.\n" );
+        }
     }
-    else if( choice > 1 )
+    else if( pVertex[port_NO].port == 5 && resource_NO != 4 ) 
     {
-        printf( "Invaild Input.\n" );
-        return;
+        printf( "Take two brick cards to exchange for something else.\n" );
+        if( bank_res[resource_NO] != 0 )
+        {
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[4] -= 2;
+            bank_res[4] += 2;
+        }
+        else if( pPlayer[0].resource[4] < 2 )
+        {
+            printf( "Sorry. You don't have enough cards.\n" );
+        }
+        else
+        {
+            printf( "Sorry. There is no enough resource.\n" );
+        }
     }
-
-    int32_t quantity = 0;
-    printf( "The number of score cards that you want to use: ");
-    scanf( "%d" , &quantity );
-
-    if( choice == 1 && pPlayer[0].develop[2] >= quantity )
+    else if( pVertex[port_NO].port == 6 ) 
     {
-        pPlayer[0].develop[4] -= quantity;
-        // points += quantity;
-    }
-    else if( choice == 1 && pPlayer[0].develop[2] < quantity )
-    {
-        printf( "Sorry. You don't have enough score cards.\n" );
+        int32_t resource_out = 0;
+        printf( "Choose the things that you want to take for exchange: \n" );
+        scanf( "%d" , &resource_out );
+
+        if( resource_NO == resource_out )
+        {
+            printf( "Did you exchange for the same thing? Fool!\n" );
+            return;
+        }
+        
+        if( bank_res[resource_NO] != 0 )
+        {
+            pPlayer[0].resource[resource_NO]++;
+            pPlayer[0].resource[resource_out] -= 3;
+            bank_res[0] += 3;
+        }
+        else if( pPlayer[0].resource[resource_out] < 3 )
+        {
+            printf( "Sorry. You don't have enough cards.\n" );
+        }
+        else
+        {
+            printf( "Sorry. There is no enough resource.\n" );
+        }
     }
 }
 

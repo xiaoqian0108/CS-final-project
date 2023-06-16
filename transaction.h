@@ -28,7 +28,7 @@ typedef struct _Player
 {
 	int32_t resource[5];  // 五種資源
     int32_t building[3];  // 三種建築
-	int32_t develop[5];  // 三種發展卡 0:騎士卡 1:進程卡 2:發展卡
+	int32_t develop[5];  // 五種發展卡 0: 騎士卡 1: 進程卡 (資源壟斷) 2: 進程卡 (創新發明) 3: 進程卡 (道路建設) 4: 分數卡
     int32_t new_deve[5];  // 剛拿到的卡
 	int32_t special[2];  // 特殊計分卡
 }sPlayer;
@@ -43,8 +43,8 @@ void init_player( sPlayer *pPlayer );
 
 int32_t drop_dice();
 
-void buy_developing_card( sPlayer *pPlayer, int32_t tdc[] );
+void bank_transaction( sPlayer *pPlayer, int32_t bank_res[] );
 
-void progressing_card( sPlayer *pPlayer, int32_t bank_res[] );
+void port_transaction( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[] );
 
-void score_card ( sPlayer *pPlayer );
+void print_player_possession( sPlayer *pPlayer );

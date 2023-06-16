@@ -17,7 +17,7 @@ typedef struct _Vertex
 	int32_t village;  // 村莊
 	int32_t city;  // 城市
 	int32_t port;  // 港口類型
-  int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
+    int32_t res_num[3];  //:{0,5,8}  // 鄰近的資源數字指示
 	int32_t res_type[3];  //:{0,2,1}  // 鄰近的資源種類
 }sVertex;
 
@@ -31,8 +31,8 @@ typedef struct _Player
 {
 	int32_t resource[5];  // 五種資源
     int32_t building[3];  // 三種建築
-	int32_t develop[3];  // 三種發展卡
-   	int32_t new_deve[3];  // 剛拿到的卡
+	int32_t develop[5];  // 三種發展卡
+   	int32_t new_deve[5];  // 剛拿到的卡
 	int32_t special[2];  // 特殊計分卡
 }sPlayer;
 
@@ -477,4 +477,37 @@ int32_t take_resource( int32_t dice , sPlate *pPlate, sVertex *pVertex, sPlayer 
     }
 
     return 0;
+}
+
+void print_player_possession( sPlayer *pPlayer )
+{
+    for( int32_t i = 0; i < 1; i++ )
+    {
+        printf( "Player %d:\n", i + 1 );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].resource[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 3; j++ )
+        {
+            printf( "%4d" , pPlayer[i].building[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].develop[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 5; j++ )
+        {
+            printf( "%4d" , pPlayer[i].new_deve[j] );
+        }
+        printf( "\n" );
+        for( size_t j = 0; j < 2; j++ )
+        {
+            printf( "%4d" , pPlayer[i].special[j] );
+        }
+        printf( "\n" );
+    }
 }
