@@ -422,6 +422,33 @@ void init_map( Plate *ArrayPlate )
 	}
 	printf("      \n");
 
+
+	char *resource[6] = { "none(0)", "grain(1)", "wood(2)", "wool(3)", "ore(4)", "brick(5)" };
+	
+	printf("4:%s, ", resource[ ArrayPlate[0].scene] );
+	printf("11:%s, ", resource[ ArrayPlate[1].scene] );
+	printf("12:%s, ", resource[ ArrayPlate[2].scene] );
+	printf("8:%s, ", resource[ ArrayPlate[3].scene] );
+	printf("3:%s, ", resource[ ArrayPlate[4].scene] );
+	printf("\n");
+	printf("6:%s, ", resource[ ArrayPlate[5].scene] );
+	printf("9:%s, ", resource[ ArrayPlate[6].scene] );
+	printf("5:%s, ", resource[ ArrayPlate[7].scene] );
+	printf("10:%s, ", resource[ ArrayPlate[8].scene] );
+	printf("11:%s, ", resource[ ArrayPlate[9].scene] );
+	printf("\n");
+	printf("5:%s, ", resource[ ArrayPlate[10].scene] );
+	printf("10:%s, ", resource[ ArrayPlate[11].scene] );
+	printf("2:%s, ", resource[ ArrayPlate[12].scene] );
+	printf("9:%s, ", resource[ ArrayPlate[13].scene] );
+	printf("4:%s, ", resource[ ArrayPlate[14].scene] );
+	printf("\n");
+	printf("7:%s, ", resource[ ArrayPlate[15].scene] );
+	printf("6:%s, ", resource[ ArrayPlate[16].scene] );
+	printf("3:%s, ", resource[ ArrayPlate[17].scene] );
+	printf("8:%s, ", resource[ ArrayPlate[18].scene] );
+	printf("\n");
+
 	return;
 }
 
@@ -741,6 +768,33 @@ void map( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine )
 		printf("      ");
 	}
 	printf("      \n");
+
+
+	char *resource[6] = { "none(0)", "grain(1)", "wood(2)", "wool(3)", "ore(4)", "brick(5)" };
+	
+	printf("4:%s, ", resource[ ArrayPlate[0].scene] );
+	printf("11:%s, ", resource[ ArrayPlate[1].scene] );
+	printf("12:%s, ", resource[ ArrayPlate[2].scene] );
+	printf("8:%s, ", resource[ ArrayPlate[3].scene] );
+	printf("3:%s, ", resource[ ArrayPlate[4].scene] );
+	printf("\n");
+	printf("6:%s, ", resource[ ArrayPlate[5].scene] );
+	printf("9:%s, ", resource[ ArrayPlate[6].scene] );
+	printf("5:%s, ", resource[ ArrayPlate[7].scene] );
+	printf("10:%s, ", resource[ ArrayPlate[8].scene] );
+	printf("11:%s, ", resource[ ArrayPlate[9].scene] );
+	printf("\n");
+	printf("5:%s, ", resource[ ArrayPlate[10].scene] );
+	printf("10:%s, ", resource[ ArrayPlate[11].scene] );
+	printf("2:%s, ", resource[ ArrayPlate[12].scene] );
+	printf("9:%s, ", resource[ ArrayPlate[13].scene] );
+	printf("4:%s, ", resource[ ArrayPlate[14].scene] );
+	printf("\n");
+	printf("7:%s, ", resource[ ArrayPlate[15].scene] );
+	printf("6:%s, ", resource[ ArrayPlate[16].scene] );
+	printf("3:%s, ", resource[ ArrayPlate[17].scene] );
+	printf("8:%s, ", resource[ ArrayPlate[18].scene] );
+	printf("\n");
 
 	return;
 }
