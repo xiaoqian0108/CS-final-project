@@ -1,4 +1,4 @@
-int buildroad( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_NO, int32_t number[] )
+int determine_road( Line *pLine, Player *pPlayer, int32_t ary[], turn )
 {
 
 
