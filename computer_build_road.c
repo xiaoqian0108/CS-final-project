@@ -172,19 +172,28 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 
 	int32_t line_NO = 0;
 	int32_t isVertexVillage = 0;
-	for( int32_t i = 0; i < 54; i++ )
-	{	
-		if( pVertex[i].village == player_NO )
+	bool shouldBreak = false;  // 标志变量
+
+	for ( int32_t i = 0; i < 54; i++ )
+	{
+		if ( pVertex[i].village == player_NO + 1 )
 		{
-			for( int32_t j = 0; j < 3; j++ )
+			for ( int32_t j = 0; j < 3; j++ )
 			{
-				if( vertex_neighbor[i][j] == 0 )
+				if ( vertex_neighbor[i][j] == 0 )
 				{
 					pLine[vertex_neighbor[i][j]].road = player_NO;
 					line_NO = vertex_neighbor[i][j];
 					isVertexVillage = 1;
-					break;
+					shouldBreak = true;  // 设置标志变量为真
+					break;  // 跳出内层循环
 				}
+			}
+			
+			if ( shouldBreak )  // 检查标志变量的状态
+			{
+				shouldBreak = false;  // 重置标志变量
+				break;  // 跳出外层循环
 			}
 		}
 	}
@@ -200,20 +209,29 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 	}
 
 	int32_t available = 0;
-	for( int32_t i = 0; i < 72; i++ )
+	bool shouldBreak = false;  // 标志变量
+
+	for ( int32_t i = 0; i < 72; i++ )
 	{
-		if( pLine[i].road == player_NO )
+		if ( pLine[i].road == player_NO )
 		{
-			for( int32_t j = 0; j < 4; j++ )
+			for ( int32_t j = 0; j < 4; j++ )
 			{
-				available = isAvailable( pLine[i].road, pLine[line_and_line_neighbor[i][j]].road, vertex_neighbor, pVertex, player_NO );
-				if( pLine[line_and_line_neighbor[i][j]].road == 0 && available == 0 )
+				available = isAvailable(pLine[i].road, pLine[line_and_line_neighbor[i][j]].road, vertex_neighbor, pVertex, player_NO);
+				if (pLine[line_and_line_neighbor[i][j]].road == 0 && available == 0)
 				{
 					pLine[line_and_line_neighbor[i][j]].road = player_NO;
 					line_NO = line_and_line_neighbor[i][j];
+					shouldBreak = true;  // 设置标志变量为真
 					break;
 				}
 			}
+		}
+		
+		if ( shouldBreak )  // 检查标志变量的状态
+		{
+			shouldBreak = false;  // 重置标志变量
+			break;  // 跳出两层循环
 		}
 	}
 
@@ -222,4 +240,5 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 	bank_res[1]++;
 	bank_res[4]++;
 	pPlayer[player_NO].building[1]++;
+	return;
 }
