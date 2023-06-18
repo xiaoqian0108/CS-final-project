@@ -1,9 +1,9 @@
 
 int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t turn )
 {
-
+	int32_t i, j;
     int32_t line_and_line_neighbor[72][4] = {
-	{1, 6, -1, -1},
+	{1, 6, -1, -1},    	
 	{0, 2, 7, -1}, 
     	{1, 7, 5, -1},
     	{2, 4, 8, -1}, 
@@ -78,60 +78,79 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[]
     };
 
     int32_t line_neighbor[72][2] = {0};
-	for( int32_t i = 0; i < 6; i++ )
+	for( i = 0; i < 6; i++ )
 	{
 		line_neighbor[i][0] = i / 2;
 		line_neighbor[i][1] = (i + 1) / 2 + 3;
 	}
-	for( int32_t i = 6; i < 10; i++ )
+	for( i = 6; i < 10; i++ )
 	{
 		line_neighbor[i][0] = i - 3;
 		line_neighbor[i][1] = i + 1;
 	}
-	for( int32_t i = 10; i < 18; i++ )
+	for( i = 10; i < 18; i++ )
 	{
 		line_neighbor[i][0] = i / 2 + 2;
 		line_neighbor[i][1] = (i + 1) / 2 + 6;
 	}
-	for( int32_t i = 18; i < 23; i++ )
+	for( i = 18; i < 23; i++ )
 	{
 		line_neighbor[i][0] = i - 7;
 		line_neighbor[i][1] = i - 2;
 	}
-	for( int32_t i = 23; i < 33; i++ )
+	for( i = 23; i < 33; i++ )
 	{
 		line_neighbor[i][0] = (i + 1) / 2 + 4;
 		line_neighbor[i][1] = i / 2 + 10;
 	}
-	for( int32_t i = 33; i < 39; i++ )
+	for( i = 33; i < 39; i++ )
 	{
 		line_neighbor[i][0] = i - 12;
 		line_neighbor[i][1] = i - 6;
 	}
-	for( int32_t i = 39; i < 49; i++ )
+	for( i = 39; i < 49; i++ )
 	{
 		line_neighbor[i][0] = i / 2 + 8;
 		line_neighbor[i][1] = (i + 1) / 2 + 13;
 	}
-	for( int32_t i = 49; i < 54; i++ )
+	for( i = 49; i < 54; i++ )
 	{
 		line_neighbor[i][0] = i - 16;
 		line_neighbor[i][1] = i - 11;
 	}
-	for( int32_t i = 54; i < 62; i++ )
+	for( i = 54; i < 62; i++ )
 	{
 		line_neighbor[i][0] = (i + 1) / 2 + 11;
 		line_neighbor[i][1] = i / 2 + 16;
 	}
-	for( int32_t i = 62; i < 66; i++ )
+	for( i = 62; i < 66; i++ )
 	{
 		line_neighbor[i][0] = i - 19;
 		line_neighbor[i][1] = i - 15;
 	}
-	for( int32_t i = 66; i < 72; i++ )
+	for( i = 66; i < 72; i++ )
 	{
 		line_neighbor[i][0] = (i + 1) / 2 + 14;
 		line_neighbor[i][1] = i / 2 + 18;
+	}
+
+	int32_t village[10] = {-1}, villages = 0, own_roads[15], roads = 0, available_road[72] = {-1};
+	for(i = 0; i <= 71; i++){
+		if(i <= 53 && (pVertex[i].village == turn + 1 || pVertex[i].city == turn + 1)){
+			village[villages] = i;
+			villages++;
+		}
+		if(pLine[i].road == turn + 1){
+			own_roads[road] = i;
+			roads++;
+		}
+	}
+	for(i = 0; i < villages; i++){
+		for(j = 0; j < 72; j++){
+			if(line_neighbor[j][0] == village[i] || line_neighbor[j][1] == village[i]){
+				available_road[72] = j;	
+			}
+		}
 	}
 
 	return 0;
