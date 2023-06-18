@@ -1,5 +1,5 @@
 
-int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_t bank_res[])
+int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_t bank_rec[])
 {
 	int32_t i, j;
     int32_t line_and_line_neighbor[72][4] = {
@@ -229,8 +229,8 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn,
 	pLine[build_this_place].road = turn + 1;
 	pPlayer[turn].resource[1]--;
     pPlayer[turn].resource[4]--;
-    bank_res[1]++;
-    bank_res[4]++;
+    bank_rec[1]++;
+    bank_rec[4]++;
     printf("Success to build the road on %d\n", build_this_place);
 	printf("\nPlayer %d's resources:" , 1);
 	printf("grain: \x1b[31m%d\x1b[0m", pPlayer[turn].resource[0]);
@@ -240,6 +240,7 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn,
 	printf(", brick: \x1b[31m%d\x1b[0m", pPlayer[turn].resource[4]);
 	printf("\n");
     printf("\n");
+    
 
 	return 0;
 }
