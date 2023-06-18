@@ -1,9 +1,10 @@
-int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t turn )
+
+int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t turn, int32_t *bank_res[])
 {
 	int32_t i, j;
-    	int32_t line_and_line_neighbor[72][4] = {
-	{1, 6, -1, -1},    	
-	{0, 2, 7, -1}, 
+    int32_t line_and_line_neighbor[72][4] = {
+		{1, 6, -1, -1},    	
+		{0, 2, 7, -1}, 
     	{1, 7, 5, -1},
     	{2, 4, 8, -1}, 
     	{3, 5, 8, -1},
@@ -133,7 +134,7 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[]
 		line_neighbor[i][1] = i / 2 + 18;
 	}
 
-	int32_t village[10] = {-1}, villages = 0, own_roads[15], roads = 0, available_road[72] = {-1}, output_road[72] = {-1};
+	int32_t village[10] = {-1}, villages = 0, own_roads[15], roads = 0, available, available_road[72] = {-1};
 	for(i = 0; i <= 71; i++) {
 		if( i <= 53 && (pVertex[i].village == turn + 1 || pVertex[i].city == turn + 1) ) {
 			village[villages] = i;
@@ -148,22 +149,89 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[]
 		for(j = 0; j < 72; j++) {
 			if( pLine[j].road == 0 && (line_neighbor[j][0] == village[i] || line_neighbor[j][1] == village[i]) ) {
 				available_road[j] = 1;
+				available++;
 			}
 		}
 	}
-	int32_t n, m;
+	int32_t n, m, common_vertex = -1;
 	for( i = 0; i < roads; i++ ) {
 		for( j = 0; j < 4; j++ ) {
 			n = own_roads[i], m = line_and_line_neighbor[n][j];
 			if( m != -1 && pLine[m].road == 0 ) {
-				available_road[m] = i;
+				if(line_neighbor[n][0] == line_neighbor[m][0]){
+					common_vertex = line_neighbor[n][0];
+				} else if(line_neighbor[n][0] == line_neighbor[m][1]){
+					common_vertex = line_neighbor[n][0];
+				} else if(line_neighbor[n][1] == line_neighbor[m][0]){
+					common_vertex = line_neighbor[n][1];
+				} else if(line_neighbor[n][1] == line_neighbor[m][1]){
+					common_vertex = line_neighbor[n][1];
+				}
+				if(common_vertex != -1 && pVertex[common_vertex].village == 0 && pVertex[common_vertex].city == 0){
+					available_road[m] = 1;
+					available++;
+				}
 			}
 		}
 	}
+	if(available == 0){
+		printf("There is no place you can build a road!\n");
+		return 0;
+	} else {
+		printf("The place where you can build the road:");
+		for(i = 0; i < 72; i++){
+			if(available_road[i] == 1){
+				printf(" %d", i);
+			}
+		}
+		printf("\n");
+	}
+	int32_t build_this_place = 99;
+	while(1){
+		printf("Where would you like to build your road (If cancel: -1)?\n");
+		scanf("%d", &build_this_place);
+		if(build_this_place == -1){
+			return 0;
+		} else if(available_road[build_this_place] == 1){
+			break;
+		} else {
+			printf("This place is not available!!!\n");
+		}
+	}
+	pLine[build_this_place].road = turn + 1;
+	pPlayer[turn].resource[1]--;
+    pPlayer[turn].resource[4]--;
+    bank_res[1]++;
+    bank_res[4]++;
+    printf("Success to build the road on %d\n", build_this_place);
+	printf("Player %d's resources:\n" , 1);
+    for(i = 0; i < 5; i++)
+    {
+    	if(i == 0)
+    	{
+    		printf("grain: %4d", pPlayer[turn].resource[i]);
+    	}
+    	else if(i == 0)
+    	{
+    		printf(", lumbar: %4d", pPlayer[turn].resource[i]);
+    	}
+    	else if(i == 0)
+    	{
+    		printf(", wool: %4d", pPlayer[turn].resource[i]);
+    	}
+    	else if(i == 0)
+    	{
+    		printf(", ore: %4d", pPlayer[turn].resource[i]);
+    	}
+    	else if(i == 0)
+    	{
+    		printf(", brick: %4d", pPlayer[turn].resource[i]);
+    	}
+    }
+    printf("\n");
 
 	return 0;
 }
-
 
 void build_road( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[], int32_t vertex_neighbor[] )
 {
@@ -223,8 +291,5 @@ void build_road( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[], int32_t
         return;
     }
 
-    pPlayer[0].resource[1]--;
-    pPlayer[0].resource[4]--;
-    bank_res[1]++;
-    bank_res[4]++;
+    
 }
