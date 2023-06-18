@@ -117,7 +117,7 @@ int isthief(Vertex* pVertex, Player* pPlayer, int32_t ary[], int32_t resource_NO
 		else {
 			srand(time(NULL));
 			oneplayer = rand() % amount + 1;
-			oneplayer = p[oneplayer];
+			oneplayer = p[oneplayer-1];
 		}
 
 
