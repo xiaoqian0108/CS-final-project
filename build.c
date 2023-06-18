@@ -223,8 +223,5 @@ void build_road( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[], int32_t
         return;
     }
 
-    pPlayer[0].resource[1]--;
-    pPlayer[0].resource[4]--;
-    bank_res[1]++;
-    bank_res[4]++;
+    
 }
