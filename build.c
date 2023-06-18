@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
+#include "map.h"
+
 int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_t bank_rec[])
 {
 	int32_t i, j;
