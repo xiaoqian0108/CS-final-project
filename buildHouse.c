@@ -4,7 +4,7 @@
 #include "build.h"
 #include "time.h"
 
-void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Player *ArrayPlayer ) //1:village, 2:city
+void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Player *ArrayPlayer, int32_t score[] ) //1:village, 2:city
 {
 	int32_t vertex_neighbor[54][3] = { 
 	{0, 1, 0},
@@ -167,6 +167,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 	
 			ArrayVertex[buildvillage_num].village = 1;
 			ArrayPlayer[player].building[1]--;
+			score[player]++;
 
 			printf("Which one do you want to build road ? \n");
 			printf("You can only choose ");
@@ -200,6 +201,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 
 			ArrayVertex[site].village = player + 1;
 			ArrayPlayer[player].building[1]--;
+			score[player]++;
 
 			int32_t siteRoad = 0;
 			if( vertex_neighbor[site][2] == 0 )
@@ -294,6 +296,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 				ArrayPlayer[player].resource[0]--;
 				ArrayPlayer[player].resource[2]--;
 				ArrayPlayer[player].building[1]--;
+				score[player]++;
 			}
 
 
@@ -324,6 +327,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 						ArrayVertex[buildcity_num].city = player + 1;
 						ArrayPlayer[player].building[1]++;
 						ArrayPlayer[player].building[2]--;
+						score[player]++;
 
 						ArrayPlayer[player].resource[3] = ArrayPlayer[player].resource[3] - 3;
 						ArrayPlayer[player].resource[0] = ArrayPlayer[player].resource[0] - 2;
@@ -421,6 +425,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 
 				ArrayVertex[ver].village = player + 1;
 				ArrayPlayer[player].building[1]--;
+				score[player]++;
 			}
 
 			int32_t citysite = 0;
@@ -436,6 +441,7 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 				ArrayVertex[citysite].village = 0;
 				ArrayPlayer[player].building[1]++;
 				ArrayPlayer[player].building[2]--;
+				score[player]++;
 
 				ArrayPlayer[player].resource[3] = ArrayPlayer[player].resource[3] - 3;
 				ArrayPlayer[player].resource[0] = ArrayPlayer[player].resource[0] - 2;
@@ -445,17 +451,3 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 
 	return;
 }
-
-
-/*
-    主函式要寫的大家剛開始蓋兩棟村莊，兩條路
-    build_house( 0, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 1, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 2, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 3, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	
-	build_house( 3, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 2, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 1, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-	build_house( 0, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
-*/
