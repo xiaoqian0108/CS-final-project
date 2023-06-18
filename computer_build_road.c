@@ -157,7 +157,7 @@ int32_t isAvailable( int32_t m, int32_t n, int32_t vertex_neighbor[][3], sVertex
 	}
 }
 
-void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int32_t bank_res[], int32_t vertex_neighbor[][3], int32_t line_neighbor[][4], int32_t player_NO )
+void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int32_t bank_res[], int32_t vertex_neighbor[][3], int32_t line_and_line_neighbor[][4], int32_t player_NO )
 {
     if( pPlayer[player_NO].resource[1] < 1 || pPlayer[player_NO].resource[4] < 1 )
     {
@@ -206,11 +206,11 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 		{
 			for( int32_t j = 0; j < 4; j++ )
 			{
-				available = isAvailable( pLine[i].road, pLine[line_neighbor[i][j]].road, vertex_neighbor, pVertex, player_NO );
-				if( pLine[line_neighbor[i][j]].road == 0 && available == 0 )
+				available = isAvailable( pLine[i].road, pLine[line_and_line_neighbor[i][j]].road, vertex_neighbor, pVertex, player_NO );
+				if( pLine[line_and_line_neighbor[i][j]].road == 0 && available == 0 )
 				{
-					pLine[line_neighbor[i][j]].road = player_NO;
-					line_NO = line_neighbor[i][j];
+					pLine[line_and_line_neighbor[i][j]].road = player_NO;
+					line_NO = line_and_line_neighbor[i][j];
 					break;
 				}
 			}
