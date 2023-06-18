@@ -634,9 +634,19 @@ void build_road(Line *pLine, Plate *pPlate, Vertex *pVertex, Player *pPlayer, in
     }
 
     determine_road(pLine, pVertex, pPlayer, turn, bank_rec);
-    while(1){
-    	printf( "Would you continue to build?(Y/N)\n" );
+    if( pPlayer[0].resource[1] > 1 && pPlayer[0].resource[4] > 1 ){
+    	while(1){
+	    	printf( "Would you continue to build?(Y/N)\n" );
+	    	char c[1];
+	    	scanf("%s", &c[0]);
+	    	if(c[0] == 'Y'){
+	    		determine_road(pLine, pVertex, pPlayer, turn, bank_rec);
+	    	} else {
+	    		break;
+	    	}
+    	}
     }
+    
     
 }
 
