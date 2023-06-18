@@ -4,14 +4,14 @@
 #include <time.h>
 #include "map.h"
 
-int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_NO, int32_t number[] )
+int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_NO, int32_t number[], int32_t turn )
 {   
 	int32_t i, j;
 	
     int32_t p[4] = {0}, amount = 0, oneplayer, resource;
     for(i = 0; i < 6; i++)
     { 
-    	if( pVertex[ary[i]].village > 1)
+    	if( pVertex[ary[i]].village != turn)
 	    {
 	    	//Record which player's village (or city) is on the plate
 	        p[amount] = pVertex[i].village;
@@ -41,16 +41,37 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     		if(pPlayer[p[0]].resource[resource_NO - 1] > 0)
     		{
     			pPlayer[p[0]].resource[resource_NO - 1]--;
-    			number[resource_NO - 1]--;
+
+    			//Give recource to the player
+    			pPlayer[turn].resource[resource_NO - 1]++;
     			break;
     		}
     	}
 
 		//Print player's all resources.
-    	printf("Player %d's resources:\n" , p[0]);
+    	printf("Player %d's resources:\n" , 1);
 	    for(i = 0; i < 5; i++)
 	    {
-	        printf("%4d" , pPlayer[p[0]].resource[i]);
+	    	if(i == 0)
+	    	{
+	    		printf("grain: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", lumbar: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", wool: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", ore: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", brick: %4d", pPlayer[0].resource[i]);
+	    	}
 	    }
 	    printf("\n");
 	    printf("Resource remaining:\n");
@@ -89,16 +110,35 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     		if(pPlayer[oneplayer - 1].resource[resource_NO-1] > 0)
     		{
     			pPlayer[oneplayer - 1].resource[resource_NO-1]--;
-    			number[resource_NO-1]--;
+    			pPlayer[turn].resource[resource_NO - 1]++;
     			break;
     		}
 	    }
 	    
-	    //Print player's all resources.}
-    	printf("Player %d's resources:\n" , oneplayer - 1);
+	    //Print player's all resources.
+    	printf("Player %d's resources:\n" , 1);
 	    for(i = 0; i < 5; i++)
 	    {
-	        printf("%4d" , pPlayer[oneplayer - 1].resource[i]);
+	    	if(i == 0)
+	    	{
+	    		printf("grain: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", lumbar: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", wool: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", ore: %4d", pPlayer[0].resource[i]);
+	    	}
+	    	else if(i == 0)
+	    	{
+	    		printf(", brick: %4d", pPlayer[0].resource[i]);
+	    	}
 	    }
 	    printf("\n");
 	    printf("Resource remaining:\n");
@@ -111,7 +151,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 	return 0;
 }
 
-void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
+void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn)
 {
 	int32_t point, a, recent, i, j, cards;
 	printf("The Robber!!!\n");
@@ -220,115 +260,115 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
 		if(point == 1 && point != recent)
 		{
 			int ary[6] = {0, 3, 4, 7, 8, 12};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[0].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[0].scene, trc, turn);
 	        pPlate[0].bandit = 1;
 		}
 		else if(point == 2 && point != recent)
 		{
 	        int ary[6] = {1, 4, 5, 8, 9, 13};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[1].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[1].scene, trc, turn);
 	        pPlate[1].bandit = 1;
 	    }
 	    else if(point == 3 && point != recent)
 	    {
 	    	int ary[6] = {2, 5, 6, 9, 10, 14};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[2].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[2].scene, trc, turn);
 	        pPlate[2].bandit = 1;
 	    }
 	    else if(point == 4 && point != recent)
 	    {
 	    	int ary[6] = {7, 11, 12, 16, 17, 22};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[3].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[3].scene, trc, turn);
 	        pPlate[3].bandit = 1;
 	    }
 	    else if(point == 5 && point != recent)
 	    {
 	    	int ary[6] = {8, 12, 13, 17, 18, 23};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[4].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[4].scene, trc, turn);
 	        pPlate[4].bandit = 1;
 	    }
 	    else if(point == 6 && point != recent)
 	    {
 	    	int ary[6] = {9, 13, 14, 18, 19, 24};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[5].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[5].scene, trc, turn);
 	        pPlate[5].bandit = 1;
 	    }
 	    else if(point == 7 && point != recent)
 	    {
 	    	int ary[6] = {10, 14, 15, 19, 20, 25};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[6].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[6].scene, trc, turn);
 	        pPlate[6].bandit = 1;
 	    }
 	    else if(point == 8 && point != recent)
 	    {
 	    	int ary[6] = {16, 21, 22, 27, 28, 33};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[7].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[7].scene, trc, turn);
 	        pPlate[7].bandit = 1;
 	    }
 	    else if(point == 9 && point != recent)
 	    {
 	    	int ary[6] = {17, 22, 23, 28, 29, 34};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[8].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[8].scene, trc, turn);
 	        pPlate[8].bandit = 1;
 	    }
 	    else if(point == 10 && point != recent)
 	    {
 	    	int ary[6] = {18, 23, 24, 29, 30, 35};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[9].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[9].scene, trc, turn);
 	        pPlate[9].bandit = 1;
 	    }
 	    else if(point == 11 && point != recent)
 	    {
 	    	int ary[6] = {19, 24, 25, 30, 31, 36};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[10].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[10].scene, trc, turn);
 	        pPlate[10].bandit = 1;
 	    }
 	    else if(point == 12 && point != recent)
 	    {
 	    	int ary[6] = {20, 25, 26, 31, 32, 37};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[11].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[11].scene, trc, turn);
 	        pPlate[11].bandit = 1;
 	    }
 	    else if(point == 13 && point != recent)
 	    {
 	    	int ary[6] = {28, 33, 34, 38, 39, 43};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[12].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[12].scene, trc, turn);
 	        pPlate[12].bandit = 1;
 	    }
 	    else if(point == 14 && point != recent)
 	    {
 	    	int ary[6] = {29, 34, 35, 39, 40, 44};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[13].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[13].scene, trc, turn);
 	        pPlate[13].bandit = 1;
 	    }
 	    else if(point == 15 && point != recent)
 	    {
 	    	int ary[6] = {30, 35, 36, 40, 41, 45};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[14].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[14].scene, trc, turn);
 	        pPlate[14].bandit = 1;
 	    }
 	    else if(point == 16 && point != recent)
 	    {
 	    	int ary[6] = {31, 36, 37, 41, 42, 46};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[15].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[15].scene, trc, turn);
 	        pPlate[15].bandit = 1;
 	    }
 	    else if(point == 17 && point != recent)
 	    {
 	    	int ary[6] = {39, 43, 44, 47, 48, 51};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[16].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[16].scene, trc, turn);
 	        pPlate[16].bandit = 1;
 	    }
 	    else if(point == 18 && point != recent)
 	    {
 	    	int ary[6] = {40, 44, 45, 48, 49, 52};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[17].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[17].scene, trc, turn);
 	        pPlate[17].bandit = 1;
 	    }
 	    else if(point == 19 && point != recent)
 	    {
 	    	int ary[6] = {41, 45, 46, 49, 50, 53};
-	        a = isthief( pVertex, pPlayer, ary, pPlate[18].scene, trc);
+	        a = isthief( pVertex, pPlayer, ary, pPlate[18].scene, trc, turn);
 	        pPlate[18].bandit = 1;
 	    }
 	    if(a > -1)
