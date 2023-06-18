@@ -618,12 +618,6 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_
 			}
 		}
 
-		int32_t trc[5];
-	    for(i = 0; i < 5; i++)
-	    {
-	        trc[i] = 19;
-	    }
-
 		if(point == 1 && point != recent)
 		{
 			int ary[6] = {0, 3, 4, 7, 8, 12};
