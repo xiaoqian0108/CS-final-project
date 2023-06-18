@@ -404,7 +404,7 @@ void progressing_card( sPlayer *pPlayer, int32_t bank_res[] )
             printf( "Road 2: ");
             scanf( "%d" , &road2 );
             printf( "The roads were successfully built.\n" );
-            pPlayer[0].building[0] += 2;
+            pPlayer[0].building[1] += 2;
             pPlayer[0].develop[3]--;
         }
         else
