@@ -27,6 +27,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     	return -1;
     }
 
+    //The case if there's only one player on the plate
     else if (amount == 1)
     {
     	while(1)
@@ -35,7 +36,8 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     		srand(time(NULL));
     		int resource_NO = rand() % 5 + 1;
 
-
+    		//Determine if the player has the resource, if so, reduce one resource.
+    		//If not, randomly select the resource again
     		if(pPlayer[p[0]].resource[resource_NO - 1] > 0)
     		{
     			pPlayer[p[0]].resource[resource_NO - 1]--;
@@ -43,6 +45,8 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     			break;
     		}
     	}
+
+		//Print player's all resources.
     	printf("Player %d's resources:\n" , p[0]);
 	    for(i = 0; i < 5; i++)
 	    {
@@ -58,8 +62,10 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     	
     }
 
+    //The case if there're more than two players on the plate
     else if(amount > 1)
     {
+    	//Select the player
     	printf("Which player? (");
     	for(i = 0; i < amount; i++)
     	{
@@ -72,17 +78,23 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     	printf(")\n");
     	scanf("%d", &oneplayer);
 
+
     	while(1)
     	{
+    		//Randomly select the resource
     		srand(time(NULL));
     		int resource_NO = rand() % 5 + 1;
+    		//Determine if the player has the resource, if so, reduce one resource.
+    		//If not, randomly select the resource again
     		if(pPlayer[oneplayer - 1].resource[resource_NO-1] > 0)
     		{
     			pPlayer[oneplayer - 1].resource[resource_NO-1]--;
     			number[resource_NO-1]--;
     			break;
     		}
-    	}
+	    }
+	    
+	    //Print player's all resources.}
     	printf("Player %d's resources:\n" , oneplayer - 1);
 	    for(i = 0; i < 5; i++)
 	    {
@@ -95,8 +107,8 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 	        printf("%4d" , number[i]);
 	    }
 	    printf("\n");
-    }
-    return 0;
+	}
+	return 0;
 }
 
 void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
@@ -117,6 +129,7 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer)
 			printf("You should throw %d cards.", half);
 			while(1)
 			{
+				//Print player's all resources.
 				printf("Player %d's resources:\n" , 1);
 			    for(i = 0; i < 5; i++)
 			    {
