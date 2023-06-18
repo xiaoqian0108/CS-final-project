@@ -209,7 +209,6 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 	}
 
 	int32_t available = 0;
-	bool shouldBreak = false;  // 标志变量
 
 	for ( int32_t i = 0; i < 72; i++ )
 	{
