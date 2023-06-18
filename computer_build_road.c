@@ -193,6 +193,8 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 	{
 		pPlayer[player_NO].resource[1]--;
 		pPlayer[player_NO].resource[4]--;
+		bank_res[1]++;
+		bank_res[4]++;
 		pPlayer[player_NO].building[1]++;
 		return;
 	}
@@ -217,5 +219,7 @@ void computer_build_road( sPlayer *pPlayer, sVertex *pVertex, sLine *pLine, int3
 
     pPlayer[player_NO].resource[1]--;
     pPlayer[player_NO].resource[4]--;
-    pPlayer[player_NO].building[1]++;
+	bank_res[1]++;
+	bank_res[4]++;
+	pPlayer[player_NO].building[1]++;
 }
