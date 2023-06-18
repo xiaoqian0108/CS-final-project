@@ -355,95 +355,79 @@ void port_transaction( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[] )
     printf( "Which other resource do you want to get?\n" );
     scanf( "%d", &resource_NO );
 
+    if( bank_res[resource_NO] == 0 )
+    {
+        printf( "Sorry. There is no enough resource.\n" );
+        return;
+    }
+
     if( pVertex[port_NO].port == 1 && resource_NO != 0 ) 
     {
         printf( "Take two wheat cards to exchange for something else.\n" );
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[0] -= 2;
-            bank_res[0] += 2;
-        }
-        else if( pPlayer[0].resource[0] < 2 )
+        
+        if( pPlayer[0].resource[0] < 2 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+        
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[0] -= 2;
+        bank_res[0] += 2;
     }
     else if( pVertex[port_NO].port == 2 && resource_NO != 1 ) 
     {
         printf( "Take two wood cards to exchange for something else.\n" );
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[1] -= 2;
-            bank_res[1] += 2;
-        }
-        else if( pPlayer[0].resource[1] < 2 )
+        
+        if( pPlayer[0].resource[1] < 2 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[1] -= 2;
+        bank_res[1] += 2;
+        
     }
     else if( pVertex[port_NO].port == 3 && resource_NO != 2 ) 
     {
         printf( "Take two wool cards to exchange for something else.\n" );
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[2] -= 2;
-            bank_res[2] += 2;
-        }
-        else if( pPlayer[0].resource[2] < 2 )
+
+        if( pPlayer[0].resource[2] < 2 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[2] -= 2;
+        bank_res[2] += 2;
+        
     }
     else if( pVertex[port_NO].port == 4 && resource_NO != 3 ) 
     {
         printf( "Take two stone cards to exchange for something else.\n" );
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[3] -= 2;
-            bank_res[3] += 2;
-        }
-        else if( pPlayer[0].resource[3] < 2 )
+        if( pPlayer[0].resource[3] < 2 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[3] -= 2;
+        bank_res[3] += 2;
     }
     else if( pVertex[port_NO].port == 5 && resource_NO != 4 ) 
     {
         printf( "Take two brick cards to exchange for something else.\n" );
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[4] -= 2;
-            bank_res[4] += 2;
-        }
-        else if( pPlayer[0].resource[4] < 2 )
+        if( pPlayer[0].resource[4] < 2 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[4] -= 2;
+        bank_res[4] += 2;
     }
     else if( pVertex[port_NO].port == 6 ) 
     {
@@ -456,21 +440,17 @@ void port_transaction( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[] )
             printf( "Did you exchange for the same thing? Fool!\n" );
             return;
         }
-        
-        if( bank_res[resource_NO] != 0 )
-        {
-            pPlayer[0].resource[resource_NO]++;
-            pPlayer[0].resource[resource_out] -= 3;
-            bank_res[0] += 3;
-        }
-        else if( pPlayer[0].resource[resource_out] < 3 )
+
+        if( pPlayer[0].resource[resource_out] < 3 )
         {
             printf( "Sorry. You don't have enough cards.\n" );
+            return;
         }
-        else
-        {
-            printf( "Sorry. There is no enough resource.\n" );
-        }
+        
+        pPlayer[0].resource[resource_NO]++;
+        pPlayer[0].resource[resource_out] -= 3;
+        bank_res[0] += 3;
+        
     }
 }
 
