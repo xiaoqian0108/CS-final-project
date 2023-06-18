@@ -122,8 +122,6 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 	}
 
 
-
-
 	if( init == 1 )
 	{
 		if( player == 0)
