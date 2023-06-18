@@ -1,4 +1,3 @@
-
 int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_t bank_rec[])
 {
 	int32_t i, j;
@@ -225,7 +224,7 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t turn,
 			printf("This place is not available!!!\n");
 		}
 	}
-
+	int32_t road_no = build_this_place;
 	pLine[build_this_place].road = turn + 1;
 	pPlayer[turn].resource[1]--;
     pPlayer[turn].resource[4]--;
