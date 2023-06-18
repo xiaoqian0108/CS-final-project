@@ -191,10 +191,9 @@ void init_struct( Plate *ArrayPlate, Vertex *ArrayVertex, Line *ArrayLine, Playe
 			ArrayPlayer[i].develop[j] = 0;
 			ArrayPlayer[i].new_deve[j] = 0;
 		}
-		for(int32_t j = 0; j < 3; j++)
-		{
-			ArrayPlayer[i].building[j] = 0;
-		}
+		ArrayPlayer[i].building[0] = 15;
+		ArrayPlayer[i].building[1] = 5;
+		ArrayPlayer[i].building[2] = 4;
 		for(int32_t j = 0; j < 2; j++)
 		{
 			ArrayPlayer[i].special[j] = 0;
