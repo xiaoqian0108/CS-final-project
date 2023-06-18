@@ -19,7 +19,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     }
     if(amount == 0)
     {
-    	printf("There is no player!!!\n");
+    	printf("\nThere is no player!!!\n");
     	return -1;
     } 
     amount = 0;
@@ -28,13 +28,11 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     	if( pVertex[ary[i]].village != turn && pVertex[ary[i]].village > 0)
 	    {
 	    	j = pVertex[ary[i]].village;
-	    	printf("%d", j);
 	        if(pPlayer[j - 1].resource[0] > 0 || pPlayer[j - 1].resource[1] > 0 || pPlayer[j - 1].resource[2] > 0 || pPlayer[j - 1].resource[3] > 0 || pPlayer[j - 1].resource[4] > 0)
 	        {
 	        	//printf("unko");
 			    p[amount] = pVertex[ary[i]].village;
 		        p[amount]--;
-		        printf(" %d\n", p[amount]);
 		        //Record how many players on the plate
 		        amount++;
 	    	}
@@ -43,7 +41,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 
     if(amount == 0)
     {
-    	printf("No players have resources!!!\n");
+    	printf("\nNo players have resources!!!\n");
     	return -1;
     }
     //The case if there's only one player on the plate
@@ -62,7 +60,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     		//If not, randomly select the resource again
     		if(pPlayer[p[0]].resource[resource_NO - 1] > 0)
     		{
-    			printf("player %d's bricks were taken away by player %d\n", p[0] + 1, turn + 1);
+    			printf("\nplayer \x1b[31m%d\x1b[0m's bricks were taken away by player \x1b[31m%d\x1b[0m\n", p[0] + 1, turn + 1);
     			pPlayer[p[0]].resource[resource_NO - 1]--;
 
     			//Give recource to the player
@@ -74,21 +72,21 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 		//Print player's all resources.
 	    for(i = 0; i < 4; i++)
 	    {
-	    	printf("Player %d's resources:\n" , i + 1);
-			printf("grain: %d", pPlayer[i].resource[0]);
-			printf(", lumbar: %d", pPlayer[i].resource[1]);
-			printf(", wool: %d", pPlayer[i].resource[2]);
-			printf(", ore: %d", pPlayer[i].resource[3]);
-			printf(", brick: %d", pPlayer[i].resource[4]);
+	    	printf("\nPlayer %d's resources:\n" , i + 1);
+			printf("grain: \x1b[31m%d\x1b[0m", pPlayer[i].resource[0]);
+			printf(", lumbar: \x1b[31m%d\x1b[0m", pPlayer[i].resource[1]);
+			printf(", wool: \x1b[31m%d\x1b[0m", pPlayer[i].resource[2]);
+			printf(", ore: \x1b[31m%d\x1b[0m", pPlayer[i].resource[3]);
+			printf(", brick: \x1b[31m%d\x1b[0m", pPlayer[i].resource[4]);
 			printf("\n");
 	    }
 	    printf("\n");
 	    printf("Resource remaining:\n");
-	    printf("grain: %d", number[0]);
-		printf(", lumbar: %d", number[1]);
-		printf(", wool: %d", number[2]);
-		printf(", ore: %d", number[3]);
-		printf(", brick: %d", number[4]);
+	    printf("grain: \x1b[31m%d\x1b[0m", number[0]);
+		printf(", lumbar: \x1b[31m%d\x1b[0m", number[1]);
+		printf(", wool: \x1b[31m%d\x1b[0m", number[2]);
+		printf(", ore: \x1b[31m%d\x1b[0m", number[3]);
+		printf(", brick: \x1b[31m%d\x1b[0m", number[4]);
 	    printf("\n");
     	
     }
@@ -96,8 +94,17 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     //The case if there're more than two players on the plate
     else if(amount > 1)
     {
+    	for(i = 0; i < amount; i++){
+    		for(j = i + 1; j < amount; j++){
+    			if(p[i] > p[j]){
+    				int32_t tmp = p[i];
+    				p[i] = p[j];
+    				p[j] = tmp;
+    			}
+    		}
+    	}
     	if(turn == 0){
-			printf("Which player? (");
+			printf("\nWhich player? (");
 	    	for(i = 0; i < amount; i++)
 	    	{
 	    		printf("%d", p[i] + 1);
@@ -127,7 +134,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
     		//If not, randomly select the resource again
     		if(pPlayer[oneplayer].resource[resource_NO-1] > 0)
     		{
-    			printf("player %d's bricks were taken away by player %d\n", oneplayer + 1, turn + 1);
+    			printf("\nplayer \x1b[31m%d\x1b[0m's bricks were taken away by player \x1b[31m%d\x1b[0m\n", oneplayer + 1, turn + 1);
     			pPlayer[oneplayer].resource[resource_NO-1]--;
 
     			//Give recource to the player
@@ -139,20 +146,20 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 	    //Print player's all resources.
 	    for(i = 0; i < 4; i++)
 	    {
-	    	printf("Player %d's resources:\n" , i + 1);
-    		printf("grain: %d", pPlayer[i].resource[0]);
-    		printf(", lumbar: %d", pPlayer[i].resource[1]);
-			printf(", wool: %d", pPlayer[i].resource[2]);
-			printf(", ore: %d", pPlayer[i].resource[3]);
-    		printf(", brick: %d", pPlayer[i].resource[4]);
+	    	printf("\nPlayer %d's resources:" , i + 1);
+    		printf("grain: \x1b[31m%d\x1b[0m", pPlayer[i].resource[0]);
+    		printf(", lumbar: \x1b[31m%d\x1b[0m", pPlayer[i].resource[1]);
+			printf(", wool: \x1b[31m%d\x1b[0m", pPlayer[i].resource[2]);
+			printf(", ore: \x1b[31m%d\x1b[0m", pPlayer[i].resource[3]);
+    		printf(", brick: \x1b[31m%d\x1b[0m", pPlayer[i].resource[4]);
 	    }
 	    printf("\n");
-	    printf("Resource remaining:\n");
-	    printf("grain: %d", number[0]);
-		printf(", lumbar: %d", number[1]);
-		printf(", wool: %d", number[2]);
-		printf(", ore: %d", number[3]);
-		printf(", brick: %d", number[4]);
+	    printf("\nResource remaining:\n");
+	    printf("grain: \x1b[31m%d\x1b[0m", number[0]);
+		printf(", lumbar: \x1b[31m%d\x1b[0m", number[1]);
+		printf(", wool: \x1b[31m%d\x1b[0m", number[2]);
+		printf(", ore: \x1b[31m%d\x1b[0m", number[3]);
+		printf(", brick: \x1b[31m%d\x1b[0m", number[4]);
 	    printf("\n");
 	}
 	return 0;
