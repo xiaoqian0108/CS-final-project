@@ -451,3 +451,16 @@ void build_house( int32_t player, int32_t init, int32_t house, Plate *ArrayPlate
 
 	return;
 }
+
+/*
+    主函式要寫的剛開始建兩棟村莊兩條路
+    build_house( 0, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 1, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 2, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 3, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	
+	build_house( 3, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 2, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 1, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+	build_house( 0, 1, 0, ArrayPlate, ArrayVertex, ArrayLine, ArrayPlayer );
+*/
