@@ -151,7 +151,7 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 	return 0;
 }
 
-void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn)
+void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn, int32_t *bank_rec[])
 {
 	int32_t point, a, recent, i, j, cards;
 	printf("The Robber!!!\n");
@@ -202,6 +202,7 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn)
 				{
 					pPlayer[0].resource[type - 1] -= quantity;
 					count += quantity;
+					bank_rec[type - 1] += quantity;
 				} else {
 					printf("Please select again.\n");
 					continue;
@@ -226,6 +227,7 @@ void thief(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn)
 				{
 					pPlayer[0].resource[type - 1] -= 1;
 					count += 1;
+					bank_rec[type - 1] += 1;
 				} else {
 					continue;
 				}
