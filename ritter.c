@@ -167,8 +167,11 @@ int isthief( Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_N
 void ritter(Plate *pPlate, Vertex *pVertex, Player *pPlayer, int32_t turn){
 	int32_t point, a, recent;
 	while(1) {
-		printf("Where would you place the bandit? (1 - 19)\n");
+		point = -1;
+		printf("\nWhere would you place the bandit? (0 - 18)\n");
 		scanf("%d", &point);
+		point++;
+		a = 0;
 
 		for(int32_t i = 0; i < 18; i++){
 			if(pPlate[i].bandit != 0){
