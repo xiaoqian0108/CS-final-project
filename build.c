@@ -3,7 +3,7 @@ int determine_road( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[]
 {
 
     int32_t line_and_line_neighbor[72][4] = {
-	{1, 6, -1, -1},    	
+	{1, 6, -1, -1},
 	{0, 2, 7, -1}, 
     	{1, 7, 5, -1},
     	{2, 4, 8, -1}, 
