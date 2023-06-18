@@ -1,3 +1,9 @@
+int buildload( Line *pLine, Vertex *pVertex, Player *pPlayer, int32_t ary[], int32_t resource_NO, int32_t number[] )
+{
+
+
+}
+
 void build_road( sPlayer *pPlayer, sVertex *pVertex, int32_t bank_res[], int32_t vertex_neighbor[] )
 {
     int32_t road_NO = 0;
